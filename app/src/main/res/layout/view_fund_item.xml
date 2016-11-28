@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:divider="@drawable/shape_divider"
+    android:orientation="horizontal"
+    android:showDividers="middle">
+
+    <TextView
+        android:id="@+id/mTextViewDate"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="日期" />
+
+    <TextView
+        android:id="@+id/mTextViewPrice"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="净值" />
+
+    <TextView
+        android:id="@+id/mTextViewMoney"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="本金" />
+
+    <TextView
+        android:id="@+id/mTextViewCount"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="份额" />
+
+    <TextView
+        android:id="@+id/mTextViewTotalMoney"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="总本金" />
+
+    <TextView
+        android:id="@+id/mTextViewTotalCount"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="总份额" />
+
+    <TextView
+        android:id="@+id/mTextViewUnitCost"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="单位成本" />
+
+    <TextView
+        android:id="@+id/mTextViewMarketMoney"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="市值" />
+
+    <TextView
+        android:id="@+id/mTextViewRatio"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="盈利率" />
+
+</LinearLayout>
