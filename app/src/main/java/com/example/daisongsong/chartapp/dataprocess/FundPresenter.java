@@ -17,9 +17,9 @@ public class FundPresenter {
     private int mStart;
     private int mEnd;
 
-    public FundPresenter(IView view) {
+    public FundPresenter(IView view, String path) {
         mView = view;
-        mOriginList = FileHelper.fromFile("a.txt");
+        mOriginList = FileHelper.fromFile(path);
     }
 
     public int getCount() {

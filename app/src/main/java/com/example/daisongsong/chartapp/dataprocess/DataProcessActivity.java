@@ -1,6 +1,8 @@
 package com.example.daisongsong.chartapp.dataprocess;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,12 @@ public class DataProcessActivity extends Activity implements FundPresenter.IView
 
     private FundPresenter mPresenter;
 
+    public static void start(Context context, String path) {
+        Intent i = new Intent(context, DataProcessActivity.class);
+        i.putExtra("path", path);
+        context.startActivity(i);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +43,7 @@ public class DataProcessActivity extends Activity implements FundPresenter.IView
         mAdapter = new DataProcessAdapter();
         mListView.setAdapter(mAdapter);
 
-        mPresenter = new FundPresenter(this);
+        mPresenter = new FundPresenter(this, getIntent().getStringExtra("path"));
         mAdapter.setPresenter(mPresenter);
 
         mPresenter.process(0, mPresenter.getCount() - 1);
