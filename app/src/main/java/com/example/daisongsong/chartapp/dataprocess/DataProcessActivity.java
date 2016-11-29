@@ -49,7 +49,7 @@ public class DataProcessActivity extends Activity implements FundPresenter.IView
 
 
         String fundCode = getIntent().getStringExtra("path");
-        mTextViewFundCode.setText("基金代码:" + fundCode);
+        mTextViewFundCode.setText("基金:" + fundCode);
         mPresenter = new FundPresenter(this, fundCode);
         mAdapter.setPresenter(mPresenter);
 
