@@ -38,7 +38,7 @@ public class DataProcessActivity extends Activity implements FundPresenter.IView
         mPresenter = new FundPresenter(this);
         mAdapter.setPresenter(mPresenter);
 
-        mPresenter.process(0, mPresenter.getCount() - 1);
+        mPresenter.process(0, mPresenter.getCount() - 1, 1);
 
         findViewById(R.id.mButtonChart).setOnClickListener(new View.OnClickListener() {
             @Override

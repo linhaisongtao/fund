@@ -11,9 +11,9 @@ import android.view.SurfaceHolder;
  */
 
 public class ChartViewHelper {
-    private static final int[] COLORS = new int[]{Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN};
+    private static final int[] COLORS = new int[]{Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.GRAY, Color.CYAN};
     private static final int PADDING = 50;
-    private static final int POINT_WIDTH = 2;
+    private static final int POINT_WIDTH = 3;
     private SurfaceHolder mSurfaceHolder;
     private int mWidth;
     private int mHeight;
@@ -56,7 +56,7 @@ public class ChartViewHelper {
         chartInfo.init();
         Paint p = new Paint();
         p.setColor(COLORS[d]);
-        p.setStrokeWidth(2);
+        p.setStrokeWidth(POINT_WIDTH);
 
         int count = chartInfo.getX().length;
         float step = (float) (1.0 * mRectContent.width() / (count - 1));
@@ -89,7 +89,8 @@ public class ChartViewHelper {
         Paint p = new Paint();
         p.setColor(Color.WHITE);
         p.setStrokeWidth(5);
-        canvas.drawRect(mRectContent, p);
+        Rect rect = new Rect(mRectContent.left, mRectContent.top - 20, mRectContent.right, mRectContent.bottom + 20);
+        canvas.drawRect(rect, p);
     }
 
 }
