@@ -4,6 +4,13 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/mLinearLayoutTip"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"></LinearLayout>
 
     <SurfaceView
         android:id="@+id/mSurfaceView"

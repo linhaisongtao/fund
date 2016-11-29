@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.daisongsong.chartapp.R;
 import com.example.daisongsong.chartapp.chart.view.ChartInfo;
@@ -17,6 +20,7 @@ import com.example.daisongsong.chartapp.chart.view.ChartViewHelper;
 
 public class ChartActivity extends Activity {
     private SurfaceView mSurfaceView;
+    private LinearLayout mLinearLayoutTip;
 
     public static void start(Context context, ChartInfo datas) {
         Intent i = new Intent(context, ChartActivity.class);
@@ -48,5 +52,15 @@ public class ChartActivity extends Activity {
 
             }
         });
+
+        mLinearLayoutTip = (LinearLayout) findViewById(R.id.mLinearLayoutTip);
+        for (int i = 0; i < ChartViewHelper.COLORS.length; i++) {
+            View v = new View(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
+            lp.weight = 1;
+            v.setLayoutParams(lp);
+            v.setBackgroundColor(ChartViewHelper.COLORS[i]);
+            mLinearLayoutTip.addView(v);
+        }
     }
 }

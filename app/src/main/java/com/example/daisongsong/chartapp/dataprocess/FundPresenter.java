@@ -116,6 +116,42 @@ public class FundPresenter {
         process();
     }
 
+    public ChartInfo makeRatioChartInfo() {
+        ChartInfo info = new ChartInfo();
+        String[] x = new String[mEnd - mStart + 1];
+        ArrayList<Float> priceRatio = new ArrayList<>();
+        for (int i = 0; i < mDatas.size(); i++) {
+            if (i >= mStart && i <= mEnd) {
+                DayData data = mDatas.get(i);
+                x[i - mStart] = data.getDate();
+                priceRatio.add(data.getPrice());
+            }
+        }
+
+        info.setX(x);
+        ArrayList<ArrayList<Float>> y = new ArrayList<>();
+//        y.add(priceRatio);
+
+        y.add(makeRatioY(1));
+        y.add(makeRatioY(5));
+        y.add(makeRatioY(10));
+        y.add(makeRatioY(20));
+
+        info.setY(y);
+        return info;
+    }
+
+    private ArrayList<Float> makeRatioY(int step) {
+        ArrayList<Float> y = new ArrayList<>();
+        process(mStart, mEnd, step);
+        for (int i = 0; i < mDatas.size(); i++) {
+            if (i >= mStart && i <= mEnd) {
+                y.add(mDatas.get(i).getRatio());
+            }
+        }
+        return y;
+    }
+
     public interface IView {
         void showList(ArrayList<DayData> list);
 

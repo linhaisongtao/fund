@@ -13,6 +13,8 @@ public class DayData extends FundData {
     private float mRatio;
     private float mUnitCost;
 
+    private float mPriceRatio;
+
     private boolean mInProcess = false;
 
     public DayData(FundData data) {
@@ -82,5 +84,13 @@ public class DayData extends FundData {
 
     public void setInProcess(boolean inProcess) {
         mInProcess = inProcess;
+    }
+
+    public float getPriceRatio() {
+        return mPriceRatio;
+    }
+
+    public void setPriceRatio(float priceRatio) {
+        mPriceRatio = priceRatio;
     }
 }

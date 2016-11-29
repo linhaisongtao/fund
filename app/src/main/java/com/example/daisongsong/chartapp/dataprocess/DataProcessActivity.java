@@ -47,6 +47,13 @@ public class DataProcessActivity extends Activity implements FundPresenter.IView
             }
         });
 
+        findViewById(R.id.mButtonRatio).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChartActivity.start(DataProcessActivity.this, mPresenter.makeRatioChartInfo());
+          }
+        });
+
     }
 
     private View makeHeaderView() {

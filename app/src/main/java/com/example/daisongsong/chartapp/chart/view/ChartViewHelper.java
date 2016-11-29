@@ -11,7 +11,7 @@ import android.view.SurfaceHolder;
  */
 
 public class ChartViewHelper {
-    private static final int[] COLORS = new int[]{Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.GRAY, Color.CYAN};
+    public static final int[] COLORS = new int[]{Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.GRAY, Color.CYAN};
     private static final int PADDING = 50;
     private static final int POINT_WIDTH = 3;
     private SurfaceHolder mSurfaceHolder;
