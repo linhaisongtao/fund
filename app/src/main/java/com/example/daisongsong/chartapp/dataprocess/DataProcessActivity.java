@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.daisongsong.chartapp.R;
 import com.example.daisongsong.chartapp.chart.ChartActivity;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 public class DataProcessActivity extends Activity implements FundPresenter.IView {
     private ListView mListView;
     private EditText mEditTextStep;
+    private TextView mTextViewFundCode;
     private DataProcessAdapter mAdapter;
 
     private FundPresenter mPresenter;
@@ -36,6 +38,8 @@ public class DataProcessActivity extends Activity implements FundPresenter.IView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_process);
 
+        mTextViewFundCode = (TextView) findViewById(R.id.mTextViewFundCode);
+
         mListView = (ListView) findViewById(R.id.mListView);
         mEditTextStep = (EditText) findViewById(R.id.mEditTextStep);
 
@@ -43,7 +47,10 @@ public class DataProcessActivity extends Activity implements FundPresenter.IView
         mAdapter = new DataProcessAdapter();
         mListView.setAdapter(mAdapter);
 
-        mPresenter = new FundPresenter(this, getIntent().getStringExtra("path"));
+
+        String fundCode = getIntent().getStringExtra("path");
+        mTextViewFundCode.setText("基金代码:" + fundCode);
+        mPresenter = new FundPresenter(this, fundCode);
         mAdapter.setPresenter(mPresenter);
 
         mPresenter.process(0, mPresenter.getCount() - 1, 1);
@@ -59,7 +66,7 @@ public class DataProcessActivity extends Activity implements FundPresenter.IView
             @Override
             public void onClick(View v) {
                 ChartActivity.start(DataProcessActivity.this, mPresenter.makeRatioChartInfo());
-          }
+            }
         });
 
     }
