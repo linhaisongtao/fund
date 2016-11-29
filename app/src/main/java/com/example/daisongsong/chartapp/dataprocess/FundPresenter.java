@@ -26,10 +26,9 @@ public class FundPresenter {
         return mOriginList == null ? 0 : mOriginList.size();
     }
 
-    public void process(int start, int end) {
+    public void process(int start, int end, int step) {
         this.mStart = start;
         this.mEnd = end;
-        int step = mView.getStep();
 
         mDatas = new ArrayList<>(mOriginList.size());
         for (int i = 0; i < mOriginList.size(); i++) {
@@ -70,13 +69,11 @@ public class FundPresenter {
     public ChartInfo makeChartInfo() {
         ChartInfo info = new ChartInfo();
         String[] x = new String[mEnd - mStart + 1];
-        ArrayList<Float> unit = new ArrayList<>();
         ArrayList<Float> price = new ArrayList<>();
         for (int i = 0; i < mDatas.size(); i++) {
             if (i >= mStart && i <= mEnd) {
                 DayData data = mDatas.get(i);
                 x[i - mStart] = data.getDate();
-                unit.add(data.getUnitCost());
                 price.add(data.getPrice());
             }
         }
@@ -84,13 +81,29 @@ public class FundPresenter {
         info.setX(x);
         ArrayList<ArrayList<Float>> y = new ArrayList<>();
         y.add(price);
-        y.add(unit);
+
+        y.add(makeY(1));
+        y.add(makeY(5));
+        y.add(makeY(10));
+        y.add(makeY(20));
+
         info.setY(y);
         return info;
     }
 
+    private ArrayList<Float> makeY(int step) {
+        ArrayList<Float> y = new ArrayList<>();
+        process(mStart, mEnd, step);
+        for (int i = 0; i < mDatas.size(); i++) {
+            if (i >= mStart && i <= mEnd) {
+                y.add(mDatas.get(i).getUnitCost());
+            }
+        }
+        return y;
+    }
+
     public void process() {
-        process(mStart, mEnd);
+        process(mStart, mEnd, mView.getStep());
     }
 
     public void setStart(int start) {
@@ -101,6 +114,42 @@ public class FundPresenter {
     public void setEnd(int end) {
         mEnd = end;
         process();
+    }
+
+    public ChartInfo makeRatioChartInfo() {
+        ChartInfo info = new ChartInfo();
+        String[] x = new String[mEnd - mStart + 1];
+        ArrayList<Float> priceRatio = new ArrayList<>();
+        for (int i = 0; i < mDatas.size(); i++) {
+            if (i >= mStart && i <= mEnd) {
+                DayData data = mDatas.get(i);
+                x[i - mStart] = data.getDate();
+                priceRatio.add(data.getPrice());
+            }
+        }
+
+        info.setX(x);
+        ArrayList<ArrayList<Float>> y = new ArrayList<>();
+//        y.add(priceRatio);
+
+        y.add(makeRatioY(1));
+        y.add(makeRatioY(5));
+        y.add(makeRatioY(10));
+        y.add(makeRatioY(20));
+
+        info.setY(y);
+        return info;
+    }
+
+    private ArrayList<Float> makeRatioY(int step) {
+        ArrayList<Float> y = new ArrayList<>();
+        process(mStart, mEnd, step);
+        for (int i = 0; i < mDatas.size(); i++) {
+            if (i >= mStart && i <= mEnd) {
+                y.add(mDatas.get(i).getRatio());
+            }
+        }
+        return y;
     }
 
     public interface IView {
