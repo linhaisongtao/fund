@@ -7,15 +7,16 @@ import java.io.Serializable;
  */
 
 public class BuyInfo implements Serializable {
-    private FundInfo.FundPrice mFundPrice;
+    private FundPrice mFundPrice;
     private long mFundTime;
     private float mMoney;
+    private float mFee;
 
-    public FundInfo.FundPrice getFundPrice() {
+    public FundPrice getFundPrice() {
         return mFundPrice;
     }
 
-    public void setFundPrice(FundInfo.FundPrice fundPrice) {
+    public void setFundPrice(FundPrice fundPrice) {
         mFundPrice = fundPrice;
     }
 
@@ -33,5 +34,17 @@ public class BuyInfo implements Serializable {
 
     public void setFundTime(long fundTime) {
         mFundTime = fundTime;
+    }
+
+    public float getFee() {
+        return mFee;
+    }
+
+    public void setFee(float fee) {
+        mFee = fee;
+    }
+
+    public float getCount() {
+        return mMoney * (1 - mFee) / mFundPrice.getPrice();
     }
 }

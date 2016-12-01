@@ -1,6 +1,7 @@
 package com.example.daisongsong.chartapp.book.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,40 +10,43 @@ import java.util.List;
 
 public class CostInfo implements Serializable {
     private FundInfo mFundInfo;
-    private List<FundInfo.FundPrice> mPrices;
+    private List<DayCostMoneyInfo> mMoneyInfos;
     private List<BuyInfo> mBuyInfos;
 
-    private float mTotalMoney;
+    public FundInfo getFundInfo() {
+        return mFundInfo;
+    }
 
     public void setFundInfo(FundInfo fundInfo) {
         mFundInfo = fundInfo;
     }
 
-    public void setPrices(List<FundInfo.FundPrice> prices) {
-        mPrices = prices;
+
+    public List<BuyInfo> getBuyInfos() {
+        return mBuyInfos;
     }
 
     public void setBuyInfos(List<BuyInfo> buyInfos) {
         mBuyInfos = buyInfos;
     }
 
-    public FundInfo getFundInfo() {
-        return mFundInfo;
+
+    public List<DayCostMoneyInfo> getMoneyInfos() {
+        return mMoneyInfos;
     }
 
-    public List<FundInfo.FundPrice> getPrices() {
-        return mPrices;
+    public void setMoneyInfos(List<DayCostMoneyInfo> moneyInfos) {
+        mMoneyInfos = moneyInfos;
     }
 
-    public List<BuyInfo> getBuyInfos() {
-        return mBuyInfos;
+    public void setMoneyInfosWithFundPrices(List<FundPrice> prices) {
+        mMoneyInfos = new ArrayList<>();
+        for (int i = 0; i < prices.size(); i++) {
+            mMoneyInfos.add(new DayCostMoneyInfo(prices.get(i)));
+        }
     }
 
-    public void setTotalMoney(float totalMoney) {
-        mTotalMoney = totalMoney;
-    }
-
-    public float getTotalMoney() {
-        return mTotalMoney;
+    public DayCostMoneyInfo getCurrentMoneyInfo() {
+        return mMoneyInfos.get(mMoneyInfos.size() - 1);
     }
 }
