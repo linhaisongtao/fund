@@ -4,11 +4,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import com.example.daisongsong.chartapp.R;
+import com.example.daisongsong.chartapp.book.fundbuydetail.FundBuyDetailActivity;
 import com.example.daisongsong.chartapp.book.model.CostInfo;
-import com.example.daisongsong.chartapp.book.model.DayCostMoneyInfo;
+import com.example.daisongsong.chartapp.book.widget.FundCostView;
 
 import java.util.List;
 
@@ -54,17 +54,19 @@ public class BookAdapter extends BaseAdapter {
 
     private class CostItemViewHolder {
         private View mView;
-        private TextView mTextViewName;
-        private TextView mTextViewTotalMoney;
-        private TextView mTextViewMarketMoney;
-        private TextView mTextViewTotalCount;
+        private FundCostView mFundCostView;
+        private CostInfo mCostInfo;
 
         public CostItemViewHolder(ViewGroup parent) {
-            mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cost, parent, false);
-            mTextViewName = (TextView) mView.findViewById(R.id.mTextViewName);
-            mTextViewTotalMoney = (TextView) mView.findViewById(R.id.mTextViewTotalMoney);
-            mTextViewMarketMoney = (TextView) mView.findViewById(R.id.mTextViewMarketMoney);
-            mTextViewTotalCount = (TextView) mView.findViewById(R.id.mTextViewTotalCount);
+            mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_book_list, parent, false);
+            mFundCostView = (FundCostView) mView.findViewById(R.id.mFundCostView);
+
+            mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FundBuyDetailActivity.start(v.getContext(), mCostInfo);
+                }
+            });
         }
 
         public View getView() {
@@ -72,11 +74,8 @@ public class BookAdapter extends BaseAdapter {
         }
 
         public void bind(CostInfo costInfo) {
-            mTextViewName.setText(costInfo.getFundInfo().getName() + "[" + costInfo.getFundInfo().getFundCode() + "]");
-            DayCostMoneyInfo moneyInfo = costInfo.getCurrentMoneyInfo();
-            mTextViewTotalMoney.setText("本金:" + moneyInfo.getTotalMoney());
-            mTextViewMarketMoney.setText("市值:" + moneyInfo.getTotalMarketMoney());
-            mTextViewTotalCount.setText("份额:" + moneyInfo.getTotalCount());
+            this.mCostInfo = costInfo;
+            mFundCostView.refreshView(costInfo);
         }
     }
 }

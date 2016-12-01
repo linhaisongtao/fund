@@ -1,10 +1,12 @@
 package com.example.daisongsong.chartapp.book.model;
 
+import java.io.Serializable;
+
 /**
  * Created by daisongsong on 2016/12/1.
  */
 
-public class DayCostMoneyInfo extends FundPrice {
+public class DayCostMoneyInfo extends FundPrice implements Serializable{
     private float mTotalMoney;
     private float mTotalMarketMoney;
     private float mTotalCount;

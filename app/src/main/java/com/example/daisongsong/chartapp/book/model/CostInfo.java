@@ -10,8 +10,8 @@ import java.util.List;
 
 public class CostInfo implements Serializable {
     private FundInfo mFundInfo;
-    private List<DayCostMoneyInfo> mMoneyInfos;
-    private List<BuyInfo> mBuyInfos;
+    private ArrayList<DayCostMoneyInfo> mMoneyInfos;
+    private ArrayList<BuyInfo> mBuyInfos;
 
     public FundInfo getFundInfo() {
         return mFundInfo;
@@ -22,20 +22,20 @@ public class CostInfo implements Serializable {
     }
 
 
-    public List<BuyInfo> getBuyInfos() {
+    public ArrayList<BuyInfo> getBuyInfos() {
         return mBuyInfos;
     }
 
-    public void setBuyInfos(List<BuyInfo> buyInfos) {
+    public void setBuyInfos(ArrayList<BuyInfo> buyInfos) {
         mBuyInfos = buyInfos;
     }
 
 
-    public List<DayCostMoneyInfo> getMoneyInfos() {
+    public ArrayList<DayCostMoneyInfo> getMoneyInfos() {
         return mMoneyInfos;
     }
 
-    public void setMoneyInfos(List<DayCostMoneyInfo> moneyInfos) {
+    public void setMoneyInfos(ArrayList<DayCostMoneyInfo> moneyInfos) {
         mMoneyInfos = moneyInfos;
     }
 

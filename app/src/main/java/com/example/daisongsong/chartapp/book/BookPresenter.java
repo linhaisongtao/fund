@@ -30,7 +30,7 @@ public class BookPresenter {
             CostInfo info = new CostInfo();
             info.setFundInfo(buyFundInfo);
             info.setMoneyInfosWithFundPrices(FundManager.getAllFundPrice(buyFundInfo.getFundCode()));
-            info.setBuyInfos(FundManager.getBuyInfos(buyFundInfo.getFundCode()));
+            info.setBuyInfos((ArrayList<BuyInfo>) FundManager.getBuyInfos(buyFundInfo.getFundCode()));
             mCostInfos.add(info);
         }
 
