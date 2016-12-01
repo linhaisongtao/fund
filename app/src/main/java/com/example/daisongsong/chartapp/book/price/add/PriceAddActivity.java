@@ -145,5 +145,15 @@ public class PriceAddActivity extends Activity {
                 return (int) (lhs.getTime() - rhs.getTime());
             }
         });
+
+
+        for (int i = allFundPrice.size() - 1; i >= 0; --i) {
+            if (i > 0) {
+                if (allFundPrice.get(i).getTime() == allFundPrice.get(i - 1).getTime()) {
+                    allFundPrice.remove(i);
+                }
+            }
+        }
+
     }
 }
