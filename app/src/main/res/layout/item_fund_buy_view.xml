@@ -24,44 +24,50 @@
         android:layout_height="1px"
         android:background="#ccc"/>
 
-    <TextView
-        android:id="@id/mTextViewDate"
+    <LinearLayout
+        android:id="@+id/mViewGroupContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:padding="10dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:background="@android:color/white"
-        android:orientation="horizontal"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp">
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/mTextViewMoney"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"/>
+            android:id="@id/mTextViewDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="10dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"/>
 
-        <TextView
-            android:id="@+id/mTextViewPrice"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
 
-        <TextView
-            android:id="@+id/mTextViewCount"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"/>
+            <TextView
+                android:id="@+id/mTextViewMoney"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"/>
 
+            <TextView
+                android:id="@+id/mTextViewPrice"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/mTextViewCount"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"/>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

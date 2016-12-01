@@ -20,17 +20,16 @@
             android:textSize="16dp"/>
 
         <TextView
-            android:id="@+id/mTextViewAdd"
+            android:id="@+id/mTextViewChart"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="right"
             android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="添加"
+            android:text="图表"
             android:textColor="@android:color/holo_orange_dark"
-            android:textSize="16dp"
-            android:visibility="gone"/>
+            android:textSize="16dp"/>
     </FrameLayout>
 
     <ListView

@@ -22,6 +22,11 @@ public class FundCostView extends FrameLayout {
     private TextView mTextViewTotalCount;
     private TextView mTextViewTotalMoneyRatio;
 
+    private TextView mTextViewDate;
+    private TextView mTextViewPrice;
+    private TextView mTextViewUnitPrice;
+
+
     public FundCostView(Context context) {
         super(context);
         init();
@@ -45,6 +50,10 @@ public class FundCostView extends FrameLayout {
         mTextViewMarketMoney = (TextView) findViewById(R.id.mTextViewMarketMoney);
         mTextViewTotalCount = (TextView) findViewById(R.id.mTextViewTotalCount);
         mTextViewTotalMoneyRatio = (TextView) findViewById(R.id.mTextViewTotalMoneyRatio);
+
+        mTextViewDate = (TextView) findViewById(R.id.mTextViewDate);
+        mTextViewPrice = (TextView) findViewById(R.id.mTextViewPrice);
+        mTextViewUnitPrice = (TextView) findViewById(R.id.mTextViewUnitPrice);
     }
 
     public void refreshView(CostInfo costInfo) {
@@ -61,6 +70,14 @@ public class FundCostView extends FrameLayout {
             mTextViewTotalMoneyRatio.setTextColor(Color.RED);
         } else {
             mTextViewTotalMoneyRatio.setTextColor(Color.GREEN);
+        }
+
+        mTextViewDate.setText(moneyInfo.getDate());
+        mTextViewPrice.setText("净值:" + moneyInfo.getPrice());
+        if (moneyInfo.getTotalCount() > 0) {
+            mTextViewUnitPrice.setText("单位成本:" + (moneyInfo.getTotalMoney() / moneyInfo.getTotalCount()));
+        } else {
+            mTextViewUnitPrice.setText("单位成本:NaN");
         }
     }
 }

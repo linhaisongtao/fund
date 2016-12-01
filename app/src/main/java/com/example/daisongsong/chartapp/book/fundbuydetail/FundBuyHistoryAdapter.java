@@ -1,5 +1,7 @@
 package com.example.daisongsong.chartapp.book.fundbuydetail;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.daisongsong.chartapp.R;
+import com.example.daisongsong.chartapp.book.data.FundManager;
 import com.example.daisongsong.chartapp.book.model.BuyInfo;
 
 import java.util.ArrayList;
@@ -60,6 +63,7 @@ public class FundBuyHistoryAdapter extends BaseAdapter {
         private View mViewFirstDivider;
         private TextView mTextViewHistory;
 
+        private BuyInfo mBuyInfo;
 
         public FundBuyItemViewHolder(ViewGroup parent) {
             mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fund_buy_view, parent, false);
@@ -69,6 +73,26 @@ public class FundBuyHistoryAdapter extends BaseAdapter {
             mTextViewDate = (TextView) mView.findViewById(R.id.mTextViewDate);
             mTextViewHistory = (TextView) mView.findViewById(R.id.mTextViewHistory);
             mViewFirstDivider = mView.findViewById(R.id.mViewFirstDivider);
+
+            mView.findViewById(R.id.mViewGroupContent).setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    new AlertDialog.Builder(v.getContext())
+                            .setTitle("删除申购记录")
+                            .setMessage("确定要删除[" + mBuyInfo.getFundPrice().getDate() + "]的记录")
+                            .setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mBuyInfos.remove(mBuyInfo);
+                                    FundManager.saveBuyInfos(mBuyInfo.getFundPrice().getFundInfo().getFundCode(), mBuyInfos);
+                                    notifyDataSetChanged();
+                                }
+                            })
+                            .setCancelable(true)
+                            .show();
+                    return true;
+                }
+            });
         }
 
         public View getView() {
@@ -76,15 +100,17 @@ public class FundBuyHistoryAdapter extends BaseAdapter {
         }
 
         public void bind(BuyInfo buyInfo, int position) {
+            this.mBuyInfo = buyInfo;
+
             mTextViewMoney.setText("金额:" + buyInfo.getMoney());
             mTextViewPrice.setText("单价:" + buyInfo.getFundPrice().getPrice());
             mTextViewCount.setText("份额:" + buyInfo.getCount());
             mTextViewDate.setText(buyInfo.getFundPrice().getDate());
 
-            if(position == 0){
+            if (position == 0) {
                 mViewFirstDivider.setVisibility(View.VISIBLE);
                 mTextViewHistory.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 mViewFirstDivider.setVisibility(View.GONE);
                 mTextViewHistory.setVisibility(View.GONE);
             }
