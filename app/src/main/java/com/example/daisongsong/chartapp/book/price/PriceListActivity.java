@@ -22,6 +22,7 @@ import java.util.List;
 public class PriceListActivity extends Activity {
     private TextView mTextViewTitle;
     private ListView mListView;
+    private PriceListAdapter mAdapter;
 
     private FundInfo mFundInfo;
 
@@ -38,12 +39,11 @@ public class PriceListActivity extends Activity {
         setContentView(R.layout.activity_price_list);
 
         mTextViewTitle = (TextView) findViewById(R.id.mTextViewTitle);
-        mListView = (ListView) findViewById(R.id.mListView);
 
         findViewById(R.id.mTextViewAdd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PriceAddActivity.start(PriceListActivity.this, mFundInfo);
+                PriceAddActivity.start(PriceListActivity.this, 1, mFundInfo);
             }
         });
 
@@ -60,5 +60,22 @@ public class PriceListActivity extends Activity {
         mTextViewTitle.setText(mFundInfo.getName());
 
         mListView = (ListView) findViewById(R.id.mListView);
+        mAdapter = new PriceListAdapter();
+        mListView.setAdapter(mAdapter);
+        notifyDataChange();
+    }
+
+    private void notifyDataChange() {
+        List<FundInfo.FundPrice> allFundPrice = FundManager.getAllFundPrice(mFundInfo.getFundCode());
+        mAdapter.setPrices(allFundPrice);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            notifyDataChange();
+        }
     }
 }

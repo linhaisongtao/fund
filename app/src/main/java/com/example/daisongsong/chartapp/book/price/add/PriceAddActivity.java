@@ -1,7 +1,6 @@
 package com.example.daisongsong.chartapp.book.price.add;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,6 +17,8 @@ import com.example.daisongsong.chartapp.book.widget.DatePickDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -34,10 +35,10 @@ public class PriceAddActivity extends Activity {
 
     private FundInfo mFundInfo;
 
-    public static void start(Context context, FundInfo fundInfo) {
-        Intent intent = new Intent(context, PriceAddActivity.class);
+    public static void start(Activity activity, int requestCode, FundInfo fundInfo) {
+        Intent intent = new Intent(activity, PriceAddActivity.class);
         intent.putExtra("fundInfo", fundInfo);
-        context.startActivity(intent);
+        activity.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -112,27 +113,35 @@ public class PriceAddActivity extends Activity {
                 }
 
                 List<FundInfo.FundPrice> allFundPrice = FundManager.getAllFundPrice(mFundInfo.getFundCode());
-
-                int indexToInsert = allFundPrice.size();
-                for (int i = indexToInsert - 1; i >= 0; --i) {
-                    if (allFundPrice.get(i).getTime() < time) {
-                        indexToInsert = i + 1;
-                        break;
+                boolean hasProcessed = false;
+                for (FundInfo.FundPrice fundPrice : allFundPrice) {
+                    if (time == fundPrice.getTime()) {
+                        fundPrice.setPrice(price);
+                        hasProcessed = true;
                     }
                 }
 
-                if (indexToInsert < allFundPrice.size() && allFundPrice.get(indexToInsert).getTime() == time) {
-                    allFundPrice.get(indexToInsert).setPrice(price);
-                } else {
+                if (!hasProcessed) {
                     FundInfo.FundPrice p = new FundInfo.FundPrice();
                     p.setDate(date);
                     p.setTime(time);
                     p.setPrice(price);
-                    allFundPrice.add(indexToInsert, p);
+                    allFundPrice.add(p);
+                    sortFundPrice(allFundPrice);
                 }
 
                 FundManager.writeAllFundPrice(mFundInfo.getFundCode(), allFundPrice);
+                setResult(Activity.RESULT_OK);
                 finish();
+            }
+        });
+    }
+
+    private void sortFundPrice(List<FundInfo.FundPrice> allFundPrice) {
+        Collections.sort(allFundPrice, new Comparator<FundInfo.FundPrice>() {
+            @Override
+            public int compare(FundInfo.FundPrice lhs, FundInfo.FundPrice rhs) {
+                return (int) (lhs.getTime() - rhs.getTime());
             }
         });
     }
