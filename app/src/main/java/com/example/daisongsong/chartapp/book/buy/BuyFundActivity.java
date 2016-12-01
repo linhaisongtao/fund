@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.daisongsong.chartapp.R;
 import com.example.daisongsong.chartapp.book.data.FundManager;
 import com.example.daisongsong.chartapp.book.model.BuyInfo;
-import com.example.daisongsong.chartapp.book.model.FundInfo;
+import com.example.daisongsong.chartapp.book.model.FundPrice;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 
 public class BuyFundActivity extends Activity {
-    private FundInfo.FundPrice mFundPrice;
+    private FundPrice mFundPrice;
 
     private TextView mTextViewName;
     private TextView mTextViewCode;
@@ -59,7 +59,7 @@ public class BuyFundActivity extends Activity {
         }
     };
 
-    public static void start(Context context, FundInfo.FundPrice price) {
+    public static void start(Context context, FundPrice price) {
         Intent i = new Intent(context, BuyFundActivity.class);
         i.putExtra("price", price);
         context.startActivity(i);
@@ -70,7 +70,7 @@ public class BuyFundActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy_fund);
 
-        mFundPrice = (FundInfo.FundPrice) getIntent().getSerializableExtra("price");
+        mFundPrice = (FundPrice) getIntent().getSerializableExtra("price");
 
         mTextViewCode = (TextView) findViewById(R.id.mTextViewCode);
         mTextViewPrice = (TextView) findViewById(R.id.mTextViewPrice);

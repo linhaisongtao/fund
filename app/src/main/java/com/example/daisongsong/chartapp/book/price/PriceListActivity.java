@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.daisongsong.chartapp.R;
 import com.example.daisongsong.chartapp.book.data.FundManager;
 import com.example.daisongsong.chartapp.book.model.FundInfo;
+import com.example.daisongsong.chartapp.book.model.FundPrice;
 import com.example.daisongsong.chartapp.book.price.add.PriceAddActivity;
 
 import java.util.List;
@@ -66,7 +67,7 @@ public class PriceListActivity extends Activity {
     }
 
     private void notifyDataChange() {
-        List<FundInfo.FundPrice> allFundPrice = FundManager.getAllFundPrice(mFundInfo.getFundCode());
+        List<FundPrice> allFundPrice = FundManager.getAllFundPrice(mFundInfo.getFundCode());
         mAdapter.setPrices(allFundPrice);
         mAdapter.notifyDataSetChanged();
     }

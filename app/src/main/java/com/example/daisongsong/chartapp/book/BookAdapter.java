@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.daisongsong.chartapp.R;
 import com.example.daisongsong.chartapp.book.model.CostInfo;
+import com.example.daisongsong.chartapp.book.model.DayCostMoneyInfo;
 
 import java.util.List;
 
@@ -55,11 +56,15 @@ public class BookAdapter extends BaseAdapter {
         private View mView;
         private TextView mTextViewName;
         private TextView mTextViewTotalMoney;
+        private TextView mTextViewMarketMoney;
+        private TextView mTextViewTotalCount;
 
         public CostItemViewHolder(ViewGroup parent) {
             mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cost, parent, false);
             mTextViewName = (TextView) mView.findViewById(R.id.mTextViewName);
             mTextViewTotalMoney = (TextView) mView.findViewById(R.id.mTextViewTotalMoney);
+            mTextViewMarketMoney = (TextView) mView.findViewById(R.id.mTextViewMarketMoney);
+            mTextViewTotalCount = (TextView) mView.findViewById(R.id.mTextViewTotalCount);
         }
 
         public View getView() {
@@ -68,7 +73,10 @@ public class BookAdapter extends BaseAdapter {
 
         public void bind(CostInfo costInfo) {
             mTextViewName.setText(costInfo.getFundInfo().getName() + "[" + costInfo.getFundInfo().getFundCode() + "]");
-            mTextViewTotalMoney.setText("本金:" + costInfo.getTotalMoney());
+            DayCostMoneyInfo moneyInfo = costInfo.getCurrentMoneyInfo();
+            mTextViewTotalMoney.setText("本金:" + moneyInfo.getTotalMoney());
+            mTextViewMarketMoney.setText("市值:" + moneyInfo.getTotalMarketMoney());
+            mTextViewTotalCount.setText("份额:" + moneyInfo.getTotalCount());
         }
     }
 }

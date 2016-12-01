@@ -3,6 +3,7 @@ package com.example.daisongsong.chartapp.book.data;
 import com.alibaba.fastjson.JSON;
 import com.example.daisongsong.chartapp.book.model.BuyInfo;
 import com.example.daisongsong.chartapp.book.model.FundInfo;
+import com.example.daisongsong.chartapp.book.model.FundPrice;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,20 +43,20 @@ public class FundManager {
         FileUtils.write(FUND_FILE_NAME, json);
     }
 
-    public static List<FundInfo.FundPrice> getAllFundPrice(String fundCode) {
+    public static List<FundPrice> getAllFundPrice(String fundCode) {
         String json = FileUtils.read(makeFundPriceFile(fundCode));
-        List<FundInfo.FundPrice> prices = JSON.parseArray(json, FundInfo.FundPrice.class);
+        List<FundPrice> prices = JSON.parseArray(json, FundPrice.class);
         if (prices == null) {
             prices = new ArrayList<>(0);
         }
         FundInfo fundInfo = getFundInfo(fundCode);
-        for (FundInfo.FundPrice price : prices) {
+        for (FundPrice price : prices) {
             price.setFundInfo(fundInfo);
         }
         return prices;
     }
 
-    public static void writeAllFundPrice(String fundCode, List<FundInfo.FundPrice> prices) {
+    public static void writeAllFundPrice(String fundCode, List<FundPrice> prices) {
         String json = null;
         if (prices != null) {
             json = JSON.toJSONString(prices);
@@ -63,9 +64,9 @@ public class FundManager {
         FileUtils.write(makeFundPriceFile(fundCode), json);
     }
 
-    public static FundInfo.FundPrice findFundPrice(String fundCode, long time) {
-        List<FundInfo.FundPrice> allFundPrice = getAllFundPrice(fundCode);
-        for (FundInfo.FundPrice fundPrice : allFundPrice) {
+    public static FundPrice findFundPrice(String fundCode, long time) {
+        List<FundPrice> allFundPrice = getAllFundPrice(fundCode);
+        for (FundPrice fundPrice : allFundPrice) {
             if (time == fundPrice.getTime()) {
                 return fundPrice;
             }
@@ -80,7 +81,7 @@ public class FundManager {
             buyInfos = new ArrayList<>(0);
         }
 
-        List<FundInfo.FundPrice> allFundPrice = getAllFundPrice(fundCode);
+        List<FundPrice> allFundPrice = getAllFundPrice(fundCode);
         for (BuyInfo buyInfo : buyInfos) {
             buyInfo.setFundPrice(findFundPrice(allFundPrice, buyInfo.getFundTime()));
         }
@@ -88,8 +89,8 @@ public class FundManager {
         return buyInfos;
     }
 
-    private static FundInfo.FundPrice findFundPrice(List<FundInfo.FundPrice> allFundPrice, long time) {
-        for (FundInfo.FundPrice price : allFundPrice) {
+    private static FundPrice findFundPrice(List<FundPrice> allFundPrice, long time) {
+        for (FundPrice price : allFundPrice) {
             if (time == price.getTime()) {
                 return price;
             }

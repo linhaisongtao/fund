@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.daisongsong.chartapp.R;
 import com.example.daisongsong.chartapp.book.buy.BuyFundActivity;
-import com.example.daisongsong.chartapp.book.model.FundInfo;
+import com.example.daisongsong.chartapp.book.model.FundPrice;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 public class PriceListAdapter extends BaseAdapter{
-    private List<FundInfo.FundPrice> mPrices;
+    private List<FundPrice> mPrices;
 
     @Override
     public int getCount() {
@@ -52,7 +52,7 @@ public class PriceListAdapter extends BaseAdapter{
         return convertView;
     }
 
-    public void setPrices(List<FundInfo.FundPrice> prices) {
+    public void setPrices(List<FundPrice> prices) {
         mPrices = prices;
     }
 
@@ -61,7 +61,7 @@ public class PriceListAdapter extends BaseAdapter{
         private TextView mTextViewPrice;
         private TextView mTextViewDate;
 
-        private FundInfo.FundPrice mFundPrice;
+        private FundPrice mFundPrice;
 
         public PriceItemViewHolder(ViewGroup parent) {
             mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fund_price_list, parent, false);
@@ -90,7 +90,7 @@ public class PriceListAdapter extends BaseAdapter{
             return mView;
         }
 
-        public void bind(FundInfo.FundPrice fundPrice) {
+        public void bind(FundPrice fundPrice) {
             mFundPrice = fundPrice;
             mTextViewDate.setText(fundPrice.getDate());
             mTextViewPrice.setText("净值:" + fundPrice.getPrice());

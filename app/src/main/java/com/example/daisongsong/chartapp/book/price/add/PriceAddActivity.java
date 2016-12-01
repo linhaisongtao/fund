@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.daisongsong.chartapp.R;
 import com.example.daisongsong.chartapp.book.data.FundManager;
 import com.example.daisongsong.chartapp.book.model.FundInfo;
+import com.example.daisongsong.chartapp.book.model.FundPrice;
 import com.example.daisongsong.chartapp.book.widget.DatePickDialog;
 
 import java.text.ParseException;
@@ -69,7 +70,7 @@ public class PriceAddActivity extends Activity {
                     e.printStackTrace();
                 }
 
-                FundInfo.FundPrice price = FundManager.findFundPrice(mFundInfo.getFundCode(), time);
+                FundPrice price = FundManager.findFundPrice(mFundInfo.getFundCode(), time);
                 if (price != null) {
                     mEditTextPrice.setText(String.valueOf(price.getPrice()));
                 } else {
@@ -112,9 +113,9 @@ public class PriceAddActivity extends Activity {
                     return;
                 }
 
-                List<FundInfo.FundPrice> allFundPrice = FundManager.getAllFundPrice(mFundInfo.getFundCode());
+                List<FundPrice> allFundPrice = FundManager.getAllFundPrice(mFundInfo.getFundCode());
                 boolean hasProcessed = false;
-                for (FundInfo.FundPrice fundPrice : allFundPrice) {
+                for (FundPrice fundPrice : allFundPrice) {
                     if (time == fundPrice.getTime()) {
                         fundPrice.setPrice(price);
                         hasProcessed = true;
@@ -122,7 +123,7 @@ public class PriceAddActivity extends Activity {
                 }
 
                 if (!hasProcessed) {
-                    FundInfo.FundPrice p = new FundInfo.FundPrice();
+                    FundPrice p = new FundPrice();
                     p.setDate(date);
                     p.setTime(time);
                     p.setPrice(price);
@@ -137,10 +138,10 @@ public class PriceAddActivity extends Activity {
         });
     }
 
-    private void sortFundPrice(List<FundInfo.FundPrice> allFundPrice) {
-        Collections.sort(allFundPrice, new Comparator<FundInfo.FundPrice>() {
+    private void sortFundPrice(List<FundPrice> allFundPrice) {
+        Collections.sort(allFundPrice, new Comparator<FundPrice>() {
             @Override
-            public int compare(FundInfo.FundPrice lhs, FundInfo.FundPrice rhs) {
+            public int compare(FundPrice lhs, FundPrice rhs) {
                 return (int) (lhs.getTime() - rhs.getTime());
             }
         });
