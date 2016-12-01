@@ -20,6 +20,17 @@
             android:text="基金净值"
             android:textSize="16dp"/>
 
+        <TextView
+            android:id="@+id/mTextViewAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="添加"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="16dp"/>
     </FrameLayout>
 
 

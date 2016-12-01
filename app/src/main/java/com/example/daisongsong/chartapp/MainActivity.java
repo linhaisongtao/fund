@@ -2,7 +2,10 @@ package com.example.daisongsong.chartapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
+
+import com.example.daisongsong.chartapp.book.fundlist.FundListActivity;
 
 import java.io.IOException;
 
@@ -26,5 +29,12 @@ public class MainActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        findViewById(R.id.mTextViewBook).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FundListActivity.start(MainActivity.this);
+            }
+        });
     }
 }

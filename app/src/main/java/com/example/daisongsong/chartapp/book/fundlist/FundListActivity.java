@@ -1,6 +1,7 @@
 package com.example.daisongsong.chartapp.book.fundlist;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,10 @@ import com.example.daisongsong.chartapp.book.data.FundManager;
 public class FundListActivity extends Activity {
     private ListView mListView;
     private FundListAdapter mAdapter;
+
+    public static void start(Context context){
+        context.startActivity(new Intent(context, FundListActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

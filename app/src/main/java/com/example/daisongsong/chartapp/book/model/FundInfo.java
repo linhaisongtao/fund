@@ -1,16 +1,14 @@
 package com.example.daisongsong.chartapp.book.model;
 
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * Created by daisongsong on 2016/11/30.
  */
 
-public class FundInfo {
+public class FundInfo implements Serializable{
     private String mFundCode;
     private String name;
-
-    private List<FundPrice> mFundPrices;
 
     public String getFundCode() {
         return mFundCode;
@@ -28,15 +26,9 @@ public class FundInfo {
         this.name = name;
     }
 
-    public List<FundPrice> getFundPrices() {
-        return mFundPrices;
-    }
-
-    public void setFundPrices(List<FundPrice> fundPrices) {
-        mFundPrices = fundPrices;
-    }
-
     public static class FundPrice {
+        private FundInfo mFundInfo;
+
         private long mTime;
         private String mDate;
         private float mPrice;
@@ -63,6 +55,14 @@ public class FundInfo {
 
         public void setPrice(float price) {
             mPrice = price;
+        }
+
+        public FundInfo getFundInfo() {
+            return mFundInfo;
+        }
+
+        public void setFundInfo(FundInfo fundInfo) {
+            mFundInfo = fundInfo;
         }
     }
 }

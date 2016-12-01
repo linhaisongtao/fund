@@ -1,6 +1,5 @@
 package com.example.daisongsong.chartapp.book.fundlist;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +43,7 @@ public class FundListAdapter extends BaseAdapter {
         FundItemViewHolder holder;
         if (convertView == null || convertView.getTag() == null || !(convertView.getTag() instanceof FundItemViewHolder)) {
             holder = new FundItemViewHolder(parent);
-            convertView = holder.itemView;
+            convertView = holder.getView();
             convertView.setTag(holder);
         } else {
             holder = (FundItemViewHolder) convertView.getTag();
@@ -53,15 +52,16 @@ public class FundListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private static class FundItemViewHolder extends RecyclerView.ViewHolder {
+    private static class FundItemViewHolder {
+        private View mView;
         private TextView mTextViewName;
         private FundInfo mFundInfo;
 
         public FundItemViewHolder(ViewGroup parent) {
-            super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fund_list, parent, false));
-            mTextViewName = (TextView) itemView.findViewById(R.id.mTextViewName);
+            mView = (LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fund_list, parent, false));
+            mTextViewName = (TextView) mView.findViewById(R.id.mTextViewName);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     PriceListActivity.start(v.getContext(), mFundInfo.getFundCode());
@@ -72,6 +72,10 @@ public class FundListAdapter extends BaseAdapter {
         public void bind(FundInfo fundInfo) {
             mFundInfo = fundInfo;
             mTextViewName.setText(fundInfo.getName() + "(" + fundInfo.getFundCode() + ")");
+        }
+
+        public View getView() {
+            return mView;
         }
     }
 }

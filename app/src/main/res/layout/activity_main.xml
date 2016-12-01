@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
@@ -7,9 +8,39 @@
     android:layout_height="match_parent"
     tools:context="com.example.daisongsong.chartapp.MainActivity">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/title_background">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="FUND"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:id="@+id/mTextViewBook"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="book"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="16dp"/>
+
+    </FrameLayout>
+
+
     <ListView
         android:id="@+id/mListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
 
-</RelativeLayout>
+</LinearLayout>

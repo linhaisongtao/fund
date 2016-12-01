@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.daisongsong.chartapp.R;
 import com.example.daisongsong.chartapp.book.data.FundManager;
 import com.example.daisongsong.chartapp.book.model.FundInfo;
+import com.example.daisongsong.chartapp.book.price.add.PriceAddActivity;
 
 import java.util.List;
 
@@ -38,6 +40,13 @@ public class PriceListActivity extends Activity {
         mTextViewTitle = (TextView) findViewById(R.id.mTextViewTitle);
         mListView = (ListView) findViewById(R.id.mListView);
 
+        findViewById(R.id.mTextViewAdd).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PriceAddActivity.start(PriceListActivity.this, mFundInfo);
+            }
+        });
+
 
         String code = getIntent().getStringExtra("code");
         List<FundInfo> allFunds = FundManager.getAllFunds();
@@ -49,5 +58,7 @@ public class PriceListActivity extends Activity {
         }
 
         mTextViewTitle.setText(mFundInfo.getName());
+
+        mListView = (ListView) findViewById(R.id.mListView);
     }
 }

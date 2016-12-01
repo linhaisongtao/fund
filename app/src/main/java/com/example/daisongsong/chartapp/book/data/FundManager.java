@@ -25,11 +25,41 @@ public class FundManager {
     public static void writeAllFunds(List<FundInfo> fundInfos) {
         String json = null;
         if (fundInfos != null) {
-            for (FundInfo fundInfo : fundInfos) {
-                fundInfo.setFundPrices(null);
-            }
             json = JSON.toJSONString(fundInfos);
         }
         FileUtils.write(FUND_FILE_NAME, json);
     }
+
+    public static List<FundInfo.FundPrice> getAllFundPrice(String fundCode) {
+        String json = FileUtils.read(makeFundPriceFile(fundCode));
+        List<FundInfo.FundPrice> prices = JSON.parseArray(json, FundInfo.FundPrice.class);
+        if (prices == null) {
+            prices = new ArrayList<>(0);
+        }
+        return prices;
+    }
+
+    public static void writeAllFundPrice(String fundCode, List<FundInfo.FundPrice> prices) {
+        String json = null;
+        if (prices != null) {
+            json = JSON.toJSONString(prices);
+        }
+        FileUtils.write(makeFundPriceFile(fundCode), json);
+    }
+
+    public static FundInfo.FundPrice findFundPrice(String fundCode, long time) {
+        List<FundInfo.FundPrice> allFundPrice = getAllFundPrice(fundCode);
+        for (FundInfo.FundPrice fundPrice : allFundPrice) {
+            if (time == fundPrice.getTime()) {
+                return fundPrice;
+            }
+        }
+        return null;
+    }
+
+    private static String makeFundPriceFile(String fundCode) {
+        return "FUND_PRICE_OF_" + fundCode;
+    }
 }
+
+
