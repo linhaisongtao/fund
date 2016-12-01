@@ -7,11 +7,18 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.daisongsong.chartapp.R;
+import com.example.daisongsong.chartapp.book.data.FundManager;
+import com.example.daisongsong.chartapp.book.model.BuyInfo;
 import com.example.daisongsong.chartapp.book.model.FundInfo;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by daisongsong on 2016/12/1.
@@ -43,11 +50,8 @@ public class BuyFundActivity extends Activity {
         public void afterTextChanged(Editable s) {
             String moneyString = mEditTextMoney.getText().toString();
             String feeString = mEditTextFee.getText().toString();
-            if (TextUtils.isEmpty(moneyString)) {
-                return;
-            }
 
-            float money = Float.parseFloat(moneyString);
+            float money = TextUtils.isEmpty(moneyString) ? 0f : Float.parseFloat(moneyString);
             float fee = TextUtils.isEmpty(feeString) ? 0f : Float.parseFloat(feeString);
 
             float count = money * (1 - fee / 100) / mFundPrice.getPrice();
@@ -83,5 +87,35 @@ public class BuyFundActivity extends Activity {
 
         mEditTextMoney.addTextChangedListener(mAutoComputeWatcher);
         mEditTextFee.addTextChangedListener(mAutoComputeWatcher);
+
+        findViewById(R.id.mButtonAdd).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String moneyString = mEditTextMoney.getText().toString();
+                float money = TextUtils.isEmpty(moneyString) ? 0f : Float.parseFloat(moneyString);
+                if (money > 0) {
+                    buy(money);
+                    finish();
+                }
+            }
+        });
+    }
+
+    private void buy(float money) {
+        List<BuyInfo> buyInfos = FundManager.getBuyInfos(mFundPrice.getFundInfo().getFundCode());
+        BuyInfo info = new BuyInfo();
+        info.setFundPrice(mFundPrice);
+        info.setFundTime(mFundPrice.getTime());
+        info.setMoney(money);
+        buyInfos.add(info);
+
+        Collections.sort(buyInfos, new Comparator<BuyInfo>() {
+            @Override
+            public int compare(BuyInfo lhs, BuyInfo rhs) {
+                return (int) (lhs.getFundPrice().getTime() - rhs.getFundPrice().getTime());
+            }
+        });
+
+        FundManager.saveBuyInfos(mFundPrice.getFundInfo().getFundCode(), buyInfos);
     }
 }
