@@ -1,5 +1,7 @@
 package com.example.daisongsong.chartapp.book.price;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.daisongsong.chartapp.R;
+import com.example.daisongsong.chartapp.book.buy.BuyFundActivity;
 import com.example.daisongsong.chartapp.book.model.FundInfo;
 
 import java.util.List;
@@ -53,15 +56,34 @@ public class PriceListAdapter extends BaseAdapter{
         mPrices = prices;
     }
 
-    private static final class PriceItemViewHolder {
+    private final class PriceItemViewHolder {
         private View mView;
         private TextView mTextViewPrice;
         private TextView mTextViewDate;
+
+        private FundInfo.FundPrice mFundPrice;
 
         public PriceItemViewHolder(ViewGroup parent) {
             mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fund_price_list, parent, false);
             mTextViewDate = (TextView) mView.findViewById(R.id.mTextViewDate);
             mTextViewPrice = (TextView) mView.findViewById(R.id.mTextViewPrice);
+
+            mView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    new AlertDialog.Builder(v.getContext())
+                            .setTitle("添加申购")
+                            .setPositiveButton("申购", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    BuyFundActivity.start(mView.getContext(), mFundPrice);
+                                }
+                            })
+                            .setCancelable(true)
+                            .show();
+                    return true;
+                }
+            });
         }
 
         public View getView() {
@@ -69,6 +91,7 @@ public class PriceListAdapter extends BaseAdapter{
         }
 
         public void bind(FundInfo.FundPrice fundPrice) {
+            mFundPrice = fundPrice;
             mTextViewDate.setText(fundPrice.getDate());
             mTextViewPrice.setText("净值:" + fundPrice.getPrice());
         }

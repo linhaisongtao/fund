@@ -26,7 +26,7 @@ public class FundInfo implements Serializable{
         this.name = name;
     }
 
-    public static class FundPrice {
+    public static class FundPrice implements Serializable{
         private FundInfo mFundInfo;
 
         private long mTime;

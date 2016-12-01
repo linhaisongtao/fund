@@ -1,5 +1,7 @@
 package com.example.daisongsong.chartapp.book.fundlist;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.daisongsong.chartapp.R;
+import com.example.daisongsong.chartapp.book.data.FundManager;
 import com.example.daisongsong.chartapp.book.model.FundInfo;
 import com.example.daisongsong.chartapp.book.price.PriceListActivity;
 
@@ -52,7 +55,7 @@ public class FundListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private static class FundItemViewHolder {
+    private class FundItemViewHolder {
         private View mView;
         private TextView mTextViewName;
         private FundInfo mFundInfo;
@@ -65,6 +68,26 @@ public class FundListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     PriceListActivity.start(v.getContext(), mFundInfo.getFundCode());
+                }
+            });
+
+            mView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    new AlertDialog.Builder(v.getContext())
+                            .setTitle("删除")
+                            .setMessage("确定删除【" + mFundInfo.getName() + "】")
+                            .setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mFunds.remove(mFundInfo);
+                                    FundManager.writeAllFunds(mFunds);
+                                    notifyDataSetChanged();
+                                }
+                            })
+                            .setCancelable(true)
+                            .show();
+                    return true;
                 }
             });
         }

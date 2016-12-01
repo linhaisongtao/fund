@@ -3,8 +3,8 @@ package com.example.daisongsong.chartapp.book.data;
 import com.alibaba.fastjson.JSON;
 import com.example.daisongsong.chartapp.book.model.FundInfo;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,6 +23,16 @@ public class FundManager {
         return fundInfos;
     }
 
+    public static FundInfo getFundInfo(String fundCode) {
+        List<FundInfo> allFunds = getAllFunds();
+        for (FundInfo allFund : allFunds) {
+            if (fundCode.equalsIgnoreCase(allFund.getFundCode())) {
+                return allFund;
+            }
+        }
+        return null;
+    }
+
     public static void writeAllFunds(List<FundInfo> fundInfos) {
         String json = null;
         if (fundInfos != null) {
@@ -36,6 +46,10 @@ public class FundManager {
         List<FundInfo.FundPrice> prices = JSON.parseArray(json, FundInfo.FundPrice.class);
         if (prices == null) {
             prices = new ArrayList<>(0);
+        }
+        FundInfo fundInfo = getFundInfo(fundCode);
+        for (FundInfo.FundPrice price : prices) {
+            price.setFundInfo(fundInfo);
         }
         return prices;
     }
@@ -56,6 +70,13 @@ public class FundManager {
             }
         }
         return null;
+    }
+
+    private static void deleteFile(String file) {
+        File f = new File(file);
+        if (f.exists()) {
+            f.delete();
+        }
     }
 
     private static String makeFundPriceFile(String fundCode) {
