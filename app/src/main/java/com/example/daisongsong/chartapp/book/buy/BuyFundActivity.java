@@ -92,27 +92,37 @@ public class BuyFundActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String moneyString = mEditTextMoney.getText().toString();
+                String feeString = mEditTextFee.getText().toString();
                 float money = TextUtils.isEmpty(moneyString) ? 0f : Float.parseFloat(moneyString);
+                float fee = TextUtils.isEmpty(feeString) ? 0f : Float.parseFloat(feeString);
                 if (money > 0) {
-                    buy(money);
+                    buy(money, fee);
                     finish();
                 }
             }
         });
     }
 
-    private void buy(float money) {
+    private void buy(float money, final float fee) {
         List<BuyInfo> buyInfos = FundManager.getBuyInfos(mFundPrice.getFundInfo().getFundCode());
         BuyInfo info = new BuyInfo();
         info.setFundPrice(mFundPrice);
         info.setFundTime(mFundPrice.getTime());
         info.setMoney(money);
+        info.setFee(fee);
         buyInfos.add(info);
 
         Collections.sort(buyInfos, new Comparator<BuyInfo>() {
             @Override
             public int compare(BuyInfo lhs, BuyInfo rhs) {
-                return (int) (lhs.getFundPrice().getTime() - rhs.getFundPrice().getTime());
+                long diff = (lhs.getFundPrice().getTime() - rhs.getFundPrice().getTime());
+                if (diff > 0) {
+                    return 1;
+                } else if (diff == 0) {
+                    return 0;
+                } else {
+                    return -1;
+                }
             }
         });
 
