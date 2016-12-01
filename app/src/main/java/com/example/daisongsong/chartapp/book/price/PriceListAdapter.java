@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.daisongsong.chartapp.R;
 import com.example.daisongsong.chartapp.book.buy.BuyFundActivity;
+import com.example.daisongsong.chartapp.book.data.FundManager;
 import com.example.daisongsong.chartapp.book.model.FundPrice;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  * Created by daisongsong on 2016/12/1.
  */
 
-public class PriceListAdapter extends BaseAdapter{
+public class PriceListAdapter extends BaseAdapter {
     private List<FundPrice> mPrices;
 
     @Override
@@ -77,6 +78,14 @@ public class PriceListAdapter extends BaseAdapter{
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     BuyFundActivity.start(mView.getContext(), mFundPrice);
+                                }
+                            })
+                            .setNegativeButton("删除", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mPrices.remove(mFundPrice);
+                                    FundManager.writeAllFundPrice(mFundPrice.getFundInfo().getFundCode(), mPrices);
+                                    notifyDataSetChanged();
                                 }
                             })
                             .setCancelable(true)

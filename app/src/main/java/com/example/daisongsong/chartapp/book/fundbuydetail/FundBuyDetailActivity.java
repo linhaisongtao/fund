@@ -9,8 +9,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.daisongsong.chartapp.R;
+import com.example.daisongsong.chartapp.book.fundlist.FundListActivity;
 import com.example.daisongsong.chartapp.book.model.CostInfo;
 import com.example.daisongsong.chartapp.book.model.DayCostMoneyInfo;
+import com.example.daisongsong.chartapp.book.price.PriceListActivity;
 import com.example.daisongsong.chartapp.book.widget.FundCostView;
 import com.example.daisongsong.chartapp.chart.ChartActivity;
 import com.example.daisongsong.chartapp.chart.view.ChartInfo;
@@ -53,6 +55,12 @@ public class FundBuyDetailActivity extends Activity {
         mListView = (ListView) findViewById(R.id.mListView);
         mFundCostView = new FundCostView(this);
         mFundCostView.refreshView(mCostInfo);
+        mFundCostView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PriceListActivity.start(v.getContext(), mCostInfo.getFundInfo().getFundCode());
+            }
+        });
         mListView.addHeaderView(mFundCostView);
         mAdapter = new FundBuyHistoryAdapter();
         mListView.setAdapter(mAdapter);

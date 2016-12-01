@@ -19,7 +19,7 @@ public class FundManager {
     public static List<FundInfo> getAllFunds() {
         String json = FileUtils.read(FUND_FILE_NAME);
         List<FundInfo> fundInfos = JSON.parseArray(json, FundInfo.class);
-        if(fundInfos == null){
+        if (fundInfos == null) {
             fundInfos = new ArrayList<>(0);
         }
         return fundInfos;
@@ -100,18 +100,16 @@ public class FundManager {
 
     public static void saveBuyInfos(String fundCode, List<BuyInfo> infos) {
         String json = null;
-        if (infos != null) {
+        if (infos != null && !infos.isEmpty()) {
             json = JSON.toJSONString(infos);
+            FileUtils.write(makeBuyFile(fundCode), json);
+        } else {
+            deleteFile(makeBuyFile(fundCode));
         }
-        FileUtils.write(makeBuyFile(fundCode), json);
     }
 
-
     private static void deleteFile(String file) {
-        File f = new File(file);
-        if (f.exists()) {
-            f.delete();
-        }
+        FileUtils.deleteFile(file);
     }
 
 

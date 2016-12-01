@@ -128,8 +128,9 @@ public class PriceAddActivity extends Activity {
                     p.setTime(time);
                     p.setPrice(price);
                     allFundPrice.add(p);
-                    sortFundPrice(allFundPrice);
                 }
+
+                sortFundPrice(allFundPrice);
 
                 FundManager.writeAllFundPrice(mFundInfo.getFundCode(), allFundPrice);
                 setResult(Activity.RESULT_OK);
@@ -142,7 +143,14 @@ public class PriceAddActivity extends Activity {
         Collections.sort(allFundPrice, new Comparator<FundPrice>() {
             @Override
             public int compare(FundPrice lhs, FundPrice rhs) {
-                return (int) (lhs.getTime() - rhs.getTime());
+                long diff = lhs.getTime() - rhs.getTime();
+                if(diff > 0){
+                    return 1;
+                }else if(diff == 0){
+                    return 0;
+                }else {
+                    return -1;
+                }
             }
         });
 

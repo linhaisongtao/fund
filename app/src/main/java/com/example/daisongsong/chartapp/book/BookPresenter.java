@@ -59,7 +59,8 @@ public class BookPresenter {
         float dayMoney = 0f;
 
         List<BuyInfo> buyInfos = findBuyInfos(costInfo, current);
-        for (BuyInfo buyInfo : buyInfos) {
+        for (int i = 0; i < buyInfos.size(); i++) {
+            BuyInfo buyInfo = buyInfos.get(i);
             dayMoney += buyInfo.getMoney();
             dayCount += buyInfo.getCount();
         }
@@ -74,7 +75,7 @@ public class BookPresenter {
             current.setTodayCount(dayCount);
             current.setTodayMoney(dayMoney);
             current.setTotalCount(pre.getTotalCount() + current.getTodayCount());
-            current.setTotalMoney(pre.getTodayMoney() + current.getTodayMoney());
+            current.setTotalMoney(pre.getTotalMoney() + current.getTodayMoney());
             current.setTotalMarketMoney(current.getTotalCount() * current.getPrice());
         }
     }

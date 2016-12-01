@@ -83,4 +83,11 @@ public class FileUtils {
         }
         return file;
     }
+
+    public static void deleteFile(String file) {
+        File f = new File(sRoot, file);
+        if (f.exists()) {
+            f.delete();
+        }
+    }
 }
