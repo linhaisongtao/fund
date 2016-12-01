@@ -64,6 +64,13 @@ public class FileUtils {
         }
     }
 
+    public static File[] listRootFiles() {
+        File[] files = sRoot.listFiles();
+        if (files == null) {
+            files = new File[0];
+        }
+        return files;
+    }
 
     public static File open(String name) {
         File file = new File(sRoot, name);

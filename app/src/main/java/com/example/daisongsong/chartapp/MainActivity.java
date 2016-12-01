@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.daisongsong.chartapp.book.BookActivity;
+import com.example.daisongsong.chartapp.book.BookAdapter;
 import com.example.daisongsong.chartapp.book.fundlist.FundListActivity;
 
 import java.io.IOException;
@@ -33,7 +35,7 @@ public class MainActivity extends Activity {
         findViewById(R.id.mTextViewBook).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FundListActivity.start(MainActivity.this);
+                BookActivity.start(v.getContext());
             }
         });
     }

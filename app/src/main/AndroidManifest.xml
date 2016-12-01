@@ -33,6 +33,7 @@
         <activity android:name=".book.price.PriceListActivity" />
         <activity android:name=".book.price.add.PriceAddActivity" />
         <activity android:name=".book.buy.BuyFundActivity"/>
+        <activity android:name=".book.BookActivity"/>
     </application>
 
 </manifest>

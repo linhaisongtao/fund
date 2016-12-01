@@ -113,6 +113,21 @@ public class FundManager {
         }
     }
 
+
+    public static List<FundInfo> listBuyFunds() {
+        List<FundInfo> fundInfos = new ArrayList<>();
+        File[] files = FileUtils.listRootFiles();
+        for (File file : files) {
+            String name = file.getName();
+            if (name.startsWith("BUY_INFO_OF_")) {
+                String fundCode = name.replaceAll("BUY_INFO_OF_", "");
+                FundInfo fundInfo = getFundInfo(fundCode);
+                fundInfos.add(fundInfo);
+            }
+        }
+        return fundInfos;
+    }
+
     private static String makeFundPriceFile(String fundCode) {
         return "FUND_PRICE_OF_" + fundCode;
     }
