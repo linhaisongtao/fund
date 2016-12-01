@@ -96,7 +96,7 @@ public class BuyFundActivity extends Activity {
                 float money = TextUtils.isEmpty(moneyString) ? 0f : Float.parseFloat(moneyString);
                 float fee = TextUtils.isEmpty(feeString) ? 0f : Float.parseFloat(feeString);
                 if (money > 0) {
-                    buy(money, fee);
+                    buy(money, fee / 100);
                     finish();
                 }
             }

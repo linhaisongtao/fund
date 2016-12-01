@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ListView;
 
@@ -21,6 +22,7 @@ public class BookActivity extends Activity implements BookPresenter.View {
     private BookPresenter mPresenter;
     private ListView mListView;
     private BookAdapter mAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public static void start(Context context) {
         context.startActivity(new Intent(context, BookActivity.class));
@@ -30,7 +32,7 @@ public class BookActivity extends Activity implements BookPresenter.View {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
-
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.mSwipeRefreshLayout);
         mListView = (ListView) findViewById(R.id.mListView);
         mAdapter = new BookAdapter();
         mListView.setAdapter(mAdapter);
@@ -44,11 +46,19 @@ public class BookActivity extends Activity implements BookPresenter.View {
                 FundListActivity.start(v.getContext());
             }
         });
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.computeBooks();
+            }
+        });
     }
 
     @Override
     public void showList(List<CostInfo> infos) {
         mAdapter.setCostInfos(infos);
         mAdapter.notifyDataSetChanged();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }
