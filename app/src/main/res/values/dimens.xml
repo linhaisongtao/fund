@@ -4,4 +4,5 @@
     <dimen name="info_14_dp">14dp</dimen>
     <dimen name="info_10_dp">10dp</dimen>
     <dimen name="info_8_dp">8dp</dimen>
+    <dimen name="info_1_dp">1dp</dimen>
 </resources>

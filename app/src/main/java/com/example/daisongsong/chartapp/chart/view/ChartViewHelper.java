@@ -15,7 +15,7 @@ import com.example.daisongsong.chartapp.R;
 
 public class ChartViewHelper {
     public static final int[] COLORS = new int[]{Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.GRAY, Color.CYAN};
-    private static final int PADDING = 50;
+    private static final int PADDING = App.getApp().getResources().getDimensionPixelSize(R.dimen.info_20_dp);
     private static final int POINT_WIDTH = 3;
     private SurfaceHolder mSurfaceHolder;
     private int mWidth;
@@ -28,7 +28,7 @@ public class ChartViewHelper {
         mWidth = width;
         mHeight = height;
 
-        mRectContent = new Rect(PADDING, PADDING, mWidth - PADDING, mHeight - PADDING);
+        mRectContent = new Rect(PADDING, PADDING, (int) (mWidth - PADDING * 1.5), mHeight - PADDING);
     }
 
     public void drawChart(final ChartInfo chartInfo) {
@@ -52,7 +52,12 @@ public class ChartViewHelper {
             drawD(canvas, chartInfo, i);
         }
 
+        drawYValues(chartInfo, canvas);
 
+        mSurfaceHolder.unlockCanvasAndPost(canvas);
+    }
+
+    private void drawYValues(ChartInfo chartInfo, Canvas canvas) {
         Paint paint = new Paint();
         paint.setColor(Color.RED);
         int fontSize = App.getApp().getResources().getDimensionPixelSize(R.dimen.info_14_dp);
@@ -61,8 +66,6 @@ public class ChartViewHelper {
         float minY = chartInfo.getMin();
         canvas.drawText(String.format("%.3f", maxY), 0, fontSize, paint);
         canvas.drawText(String.format("%.3f", minY), 0, mRectContent.height(), paint);
-
-        mSurfaceHolder.unlockCanvasAndPost(canvas);
     }
 
     private void drawD(Canvas canvas, ChartInfo chartInfo, int d) {
@@ -102,7 +105,8 @@ public class ChartViewHelper {
     private void drawAxis(Canvas canvas) {
         Paint p = new Paint();
         p.setColor(Color.WHITE);
-        p.setStrokeWidth(5);
+        p.setStrokeWidth(App.getApp().getResources().getDimensionPixelSize(R.dimen.info_1_dp));
+        p.setStyle(Paint.Style.STROKE);
         Rect rect = new Rect(mRectContent.left, mRectContent.top - 40, mRectContent.right, mRectContent.bottom + 40);
         canvas.drawRect(rect, p);
     }
