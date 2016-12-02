@@ -16,6 +16,7 @@ public class FundPresenter {
     private ArrayList<DayData> mDatas;
     private int mStart;
     private int mEnd;
+    private float mMaxY = Float.MAX_VALUE;
 
     public FundPresenter(IView view, String path) {
         mView = view;
@@ -68,13 +69,19 @@ public class FundPresenter {
 
     public ChartInfo makeChartInfo() {
         ChartInfo info = new ChartInfo();
+
+        mMaxY = Float.MIN_VALUE;
+
         String[] x = new String[mEnd - mStart + 1];
         ArrayList<Float> price = new ArrayList<>();
         for (int i = 0; i < mDatas.size(); i++) {
             if (i >= mStart && i <= mEnd) {
                 DayData data = mDatas.get(i);
                 x[i - mStart] = data.getDate();
-                price.add(data.getPrice());
+
+                float p = data.getPrice();
+                price.add(p);
+                mMaxY = Math.max(mMaxY, p);
             }
         }
 
@@ -88,6 +95,12 @@ public class FundPresenter {
         y.add(makeY(20));
 
         info.setY(y);
+
+        info.setMax(mMaxY);
+        info.setMin(0f);
+        info.setWidth(mMaxY);
+        info.setNeedInit(false);
+
         return info;
     }
 
@@ -96,7 +109,9 @@ public class FundPresenter {
         process(mStart, mEnd, step);
         for (int i = 0; i < mDatas.size(); i++) {
             if (i >= mStart && i <= mEnd) {
-                y.add(mDatas.get(i).getUnitCost());
+                float c = mDatas.get(i).getUnitCost();
+                y.add(c);
+                mMaxY = Math.max(mMaxY, c);
             }
         }
         return y;
@@ -146,7 +161,8 @@ public class FundPresenter {
         process(mStart, mEnd, step);
         for (int i = 0; i < mDatas.size(); i++) {
             if (i >= mStart && i <= mEnd) {
-                y.add(mDatas.get(i).getRatio());
+                float r = mDatas.get(i).getRatio();
+                y.add(r);
             }
         }
         return y;

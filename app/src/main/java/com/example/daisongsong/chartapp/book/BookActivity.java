@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.daisongsong.chartapp.MainActivity;
 import com.example.daisongsong.chartapp.R;
 import com.example.daisongsong.chartapp.book.fundlist.FundListActivity;
 import com.example.daisongsong.chartapp.book.model.CostInfo;
@@ -44,6 +45,13 @@ public class BookActivity extends Activity implements BookPresenter.View {
             @Override
             public void onClick(View v) {
                 FundListActivity.start(v.getContext());
+            }
+        });
+
+        findViewById(R.id.mTextViewInfo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.start(v.getContext());
             }
         });
 

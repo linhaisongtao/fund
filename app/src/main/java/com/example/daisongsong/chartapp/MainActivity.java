@@ -1,6 +1,8 @@
 package com.example.daisongsong.chartapp;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -14,6 +16,10 @@ import java.io.IOException;
 public class MainActivity extends Activity {
     private ListView mListView;
     private FundFileAdapter mAdapter;
+
+    public static void start(Context context){
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +38,5 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        findViewById(R.id.mTextViewBook).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BookActivity.start(v.getContext());
-            }
-        });
     }
 }

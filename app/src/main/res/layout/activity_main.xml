@@ -19,20 +19,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:paddingRight="@dimen/info_20_dp"
             android:text="FUND"
-            android:textSize="16dp"/>
-
-        <TextView
-            android:id="@+id/mTextViewBook"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:gravity="center"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="book"
-            android:textColor="@android:color/holo_orange_dark"
             android:textSize="16dp"/>
 
     </FrameLayout>

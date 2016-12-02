@@ -6,6 +6,9 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.SurfaceHolder;
 
+import com.example.daisongsong.chartapp.App;
+import com.example.daisongsong.chartapp.R;
+
 /**
  * Created by daisongsong on 2016/11/28.
  */
@@ -49,6 +52,16 @@ public class ChartViewHelper {
             drawD(canvas, chartInfo, i);
         }
 
+
+        Paint paint = new Paint();
+        paint.setColor(Color.RED);
+        int fontSize = App.getApp().getResources().getDimensionPixelSize(R.dimen.info_14_dp);
+        paint.setTextSize(fontSize);
+        float maxY = chartInfo.getMax();
+        float minY = chartInfo.getMin();
+        canvas.drawText(String.format("%.3f", maxY), 0, fontSize, paint);
+        canvas.drawText(String.format("%.3f", minY), 0, mRectContent.height(), paint);
+
         mSurfaceHolder.unlockCanvasAndPost(canvas);
     }
 
@@ -77,8 +90,9 @@ public class ChartViewHelper {
             lastY = y;
 
             if (i == (count - 1)) {
-                p.setTextSize(12);
-                canvas.drawText(String.valueOf(chartInfo.getY(d).get(i)), x + 14, y + 14, p);
+                int fontSize = App.getApp().getResources().getDimensionPixelSize(R.dimen.info_8_dp);
+                p.setTextSize(fontSize);
+                canvas.drawText(String.format("%.3f", chartInfo.getY(d).get(i)), x, y + fontSize / 2, p);
             }
 
         }
@@ -89,7 +103,7 @@ public class ChartViewHelper {
         Paint p = new Paint();
         p.setColor(Color.WHITE);
         p.setStrokeWidth(5);
-        Rect rect = new Rect(mRectContent.left, mRectContent.top - 20, mRectContent.right, mRectContent.bottom + 20);
+        Rect rect = new Rect(mRectContent.left, mRectContent.top - 40, mRectContent.right, mRectContent.bottom + 40);
         canvas.drawRect(rect, p);
     }
 

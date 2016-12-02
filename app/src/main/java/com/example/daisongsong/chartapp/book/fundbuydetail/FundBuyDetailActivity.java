@@ -9,7 +9,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.daisongsong.chartapp.R;
-import com.example.daisongsong.chartapp.book.fundlist.FundListActivity;
 import com.example.daisongsong.chartapp.book.model.CostInfo;
 import com.example.daisongsong.chartapp.book.model.DayCostMoneyInfo;
 import com.example.daisongsong.chartapp.book.price.PriceListActivity;
@@ -79,6 +78,8 @@ public class FundBuyDetailActivity extends Activity {
     private ChartInfo makeChartInfos() {
         ChartInfo info = new ChartInfo();
 
+        float maxY = Float.MIN_VALUE;
+
         ArrayList<DayCostMoneyInfo> moneyInfos = mCostInfo.getMoneyInfos();
         String[] x = new String[moneyInfos.size()];
         ArrayList<Float> prices = new ArrayList<>();
@@ -86,12 +87,19 @@ public class FundBuyDetailActivity extends Activity {
         for (int i = 0; i < moneyInfos.size(); i++) {
             DayCostMoneyInfo moneyInfo = moneyInfos.get(i);
             x[i] = moneyInfo.getDate();
-            prices.add(moneyInfo.getPrice());
-            if(moneyInfo.getTotalCount() == 0){
-                averagePrices.add(moneyInfo.getPrice());
-            }else {
-                averagePrices.add(moneyInfo.getTotalMoney() / moneyInfo.getTotalCount());
+
+            float price = moneyInfo.getPrice();
+            prices.add(price);
+
+            float averagePrice;
+            if (moneyInfo.getTotalCount() == 0) {
+                averagePrice = moneyInfo.getPrice();
+            } else {
+                averagePrice = moneyInfo.getTotalMoney() / moneyInfo.getTotalCount();
             }
+            averagePrices.add(averagePrice);
+
+            maxY = Math.max(maxY, Math.max(price, averagePrice));
         }
 
         ArrayList<ArrayList<Float>> y = new ArrayList<>();
@@ -100,6 +108,12 @@ public class FundBuyDetailActivity extends Activity {
         info.setY(y);
         info.setX(x);
 
+        info.setMax(maxY);
+        info.setMin(0f);
+        info.setWidth(maxY - 0f);
+        info.setNeedInit(false);
+
         return info;
     }
+
 }
