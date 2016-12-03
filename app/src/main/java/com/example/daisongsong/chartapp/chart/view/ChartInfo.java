@@ -12,6 +12,7 @@ public class ChartInfo implements Serializable {
     private String[] mX;
 
     private ArrayList<ArrayList<Float>> mY;
+    private ArrayList<String> mYNames;
     private float mMin = Float.MIN_VALUE;
     private float mMax = Float.MIN_VALUE;
     private float mWidth = Float.MIN_VALUE;
@@ -47,6 +48,22 @@ public class ChartInfo implements Serializable {
 
     public void setY(ArrayList<ArrayList<Float>> y) {
         mY = y;
+        if (mY != null) {
+            mYNames = new ArrayList<>(mY.size());
+            for (int i = 0; i < mY.size(); i++) {
+                mYNames.add("y" + (i + 1));
+            }
+        }
+    }
+
+    public void addY(ArrayList<Float> y, String yName) {
+        if (mY == null) {
+            mY = new ArrayList<>();
+            mYNames = new ArrayList<>();
+        }
+        mY.add(y);
+        mYNames.add(yName);
+
     }
 
     public String[] getX() {
@@ -108,11 +125,15 @@ public class ChartInfo implements Serializable {
         mWidth = mMax - mMin;
     }
 
+    public boolean isNeedInit() {
+        return mNeedInit;
+    }
+
     public void setNeedInit(boolean needInit) {
         mNeedInit = needInit;
     }
 
-    public boolean isNeedInit() {
-        return mNeedInit;
+    public ArrayList<String> getYNames() {
+        return mYNames;
     }
 }

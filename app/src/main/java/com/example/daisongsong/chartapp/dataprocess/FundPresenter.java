@@ -86,15 +86,11 @@ public class FundPresenter {
         }
 
         info.setX(x);
-        ArrayList<ArrayList<Float>> y = new ArrayList<>();
-        y.add(price);
-
-        y.add(makeY(1));
-        y.add(makeY(5));
-        y.add(makeY(10));
-        y.add(makeY(20));
-
-        info.setY(y);
+        info.addY(price, "净值");
+        info.addY(makeY(1), "日定投");
+        info.addY(makeY(5), "周定投");
+        info.addY(makeY(10), "2周定投");
+        info.addY(makeY(22), "月定投");
 
         info.setMax(mMaxY);
         info.setMin(0f);
@@ -144,15 +140,10 @@ public class FundPresenter {
         }
 
         info.setX(x);
-        ArrayList<ArrayList<Float>> y = new ArrayList<>();
-//        y.add(priceRatio);
-
-        y.add(makeRatioY(1));
-        y.add(makeRatioY(5));
-        y.add(makeRatioY(10));
-        y.add(makeRatioY(20));
-
-        info.setY(y);
+        info.addY(makeRatioY(1), "日定投");
+        info.addY(makeRatioY(5), "周定投");
+        info.addY(makeRatioY(10), "2周定投");
+        info.addY(makeRatioY(20), "月定投");
         return info;
     }
 

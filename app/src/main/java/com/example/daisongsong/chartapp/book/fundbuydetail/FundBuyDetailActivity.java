@@ -102,11 +102,9 @@ public class FundBuyDetailActivity extends Activity {
             maxY = Math.max(maxY, Math.max(price, averagePrice));
         }
 
-        ArrayList<ArrayList<Float>> y = new ArrayList<>();
-        y.add(prices);
-        y.add(averagePrices);
-        info.setY(y);
         info.setX(x);
+        info.addY(prices, "净值");
+        info.addY(averagePrices, "成本");
 
         info.setMax(maxY);
         info.setMin(0f);
