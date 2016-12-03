@@ -13,6 +13,8 @@ import com.example.daisongsong.chartapp.book.buy.BuyFundActivity;
 import com.example.daisongsong.chartapp.book.data.FundManager;
 import com.example.daisongsong.chartapp.book.model.FundPrice;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -54,7 +56,11 @@ public class PriceListAdapter extends BaseAdapter {
     }
 
     public void setPrices(List<FundPrice> prices) {
-        mPrices = prices;
+        mPrices = new ArrayList<>();
+        if(prices != null){
+            mPrices.addAll(prices);
+            Collections.reverse(mPrices);
+        }
     }
 
     private final class PriceItemViewHolder {
@@ -84,7 +90,12 @@ public class PriceListAdapter extends BaseAdapter {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mPrices.remove(mFundPrice);
-                                    FundManager.writeAllFundPrice(mFundPrice.getFundInfo().getFundCode(), mPrices);
+
+                                    List<FundPrice> prices = new ArrayList<FundPrice>();
+                                    prices.addAll(mPrices);
+                                    Collections.reverse(prices);
+                                    FundManager.writeAllFundPrice(mFundPrice.getFundInfo().getFundCode(), prices);
+
                                     notifyDataSetChanged();
                                 }
                             })

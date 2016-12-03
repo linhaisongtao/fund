@@ -13,6 +13,8 @@ import com.example.daisongsong.chartapp.book.data.FundManager;
 import com.example.daisongsong.chartapp.book.model.BuyInfo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by daisongsong on 2016/12/1.
@@ -51,7 +53,11 @@ public class FundBuyHistoryAdapter extends BaseAdapter {
     }
 
     public void setBuyInfos(ArrayList<BuyInfo> buyInfos) {
-        mBuyInfos = buyInfos;
+        mBuyInfos = new ArrayList<>();
+        if(buyInfos != null){
+            mBuyInfos.addAll(buyInfos);
+            Collections.reverse(mBuyInfos);
+        }
     }
 
     private class FundBuyItemViewHolder {
@@ -84,7 +90,12 @@ public class FundBuyHistoryAdapter extends BaseAdapter {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     mBuyInfos.remove(mBuyInfo);
-                                    FundManager.saveBuyInfos(mBuyInfo.getFundPrice().getFundInfo().getFundCode(), mBuyInfos);
+
+                                    List<BuyInfo> buyInfos = new ArrayList<BuyInfo>();
+                                    buyInfos.addAll(mBuyInfos);
+                                    Collections.reverse(buyInfos);
+                                    FundManager.saveBuyInfos(mBuyInfo.getFundPrice().getFundInfo().getFundCode(), buyInfos);
+
                                     notifyDataSetChanged();
                                 }
                             })
