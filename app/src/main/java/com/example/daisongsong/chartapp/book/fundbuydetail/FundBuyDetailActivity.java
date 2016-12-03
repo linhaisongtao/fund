@@ -3,8 +3,13 @@ package com.example.daisongsong.chartapp.book.fundbuydetail;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,6 +20,8 @@ import com.example.daisongsong.chartapp.book.price.PriceListActivity;
 import com.example.daisongsong.chartapp.book.widget.FundCostView;
 import com.example.daisongsong.chartapp.chart.ChartActivity;
 import com.example.daisongsong.chartapp.chart.view.ChartInfo;
+import com.example.daisongsong.chartapp.chart.view.ChartViewHelper;
+import com.example.daisongsong.chartapp.util.PhoneUtils;
 
 import java.util.ArrayList;
 
@@ -27,6 +34,7 @@ public class FundBuyDetailActivity extends Activity {
 
     private TextView mTextViewTitle;
     private ListView mListView;
+    private SurfaceView mSurfaceView;
 
     private FundBuyHistoryAdapter mAdapter;
 
@@ -52,7 +60,13 @@ public class FundBuyDetailActivity extends Activity {
         mTextViewTitle.setText(mCostInfo.getFundInfo().getName() + "[" + mCostInfo.getFundInfo().getFundCode() + "]");
 
         mListView = (ListView) findViewById(R.id.mListView);
-        mFundCostView = new FundCostView(this);
+
+        View view = LayoutInflater.from(this).inflate(R.layout.item_buy_detail_header, mListView, false);
+        mFundCostView = (FundCostView) view.findViewById(R.id.mFundCostView);
+        mSurfaceView = (SurfaceView) view.findViewById(R.id.mSurfaceView);
+
+        initSurfaceView(mSurfaceView);
+
         mFundCostView.refreshView(mCostInfo);
         mFundCostView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,19 +74,47 @@ public class FundBuyDetailActivity extends Activity {
                 PriceListActivity.start(v.getContext(), mCostInfo.getFundInfo().getFundCode());
             }
         });
-        mListView.addHeaderView(mFundCostView);
+        mListView.addHeaderView(view);
         mAdapter = new FundBuyHistoryAdapter();
         mListView.setAdapter(mAdapter);
 
         mAdapter.setBuyInfos(mCostInfo.getBuyInfos());
         mAdapter.notifyDataSetChanged();
 
-        findViewById(R.id.mTextViewChart).setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void initSurfaceView(SurfaceView surfaceView) {
+        ViewGroup.LayoutParams lp = surfaceView.getLayoutParams();
+        Rect screenSize = PhoneUtils.getScreenSize();
+        lp.height = screenSize.width() / 2;
+        surfaceView.setLayoutParams(lp);
+
+        final ChartInfo chartInfo = makeChartInfos();
+        surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
-            public void onClick(View v) {
-                ChartActivity.start(v.getContext(), makeChartInfos());
+            public void surfaceCreated(SurfaceHolder holder) {
+                ChartViewHelper helper = new ChartViewHelper(holder, mSurfaceView.getMeasuredWidth(), mSurfaceView.getMeasuredHeight());
+                helper.drawChart(chartInfo);
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder holder) {
+
             }
         });
+
+        surfaceView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChartActivity.start(v.getContext(), chartInfo);
+            }
+        });
+
     }
 
     private ChartInfo makeChartInfos() {

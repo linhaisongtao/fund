@@ -51,7 +51,9 @@
         <ListView
             android:id="@+id/mListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
+            android:layout_height="match_parent"
+            android:divider="@drawable/shape_book_list_divider"
+            android:dividerHeight="6dp"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 

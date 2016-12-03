@@ -1,7 +1,6 @@
 package com.example.daisongsong.chartapp.book.widget;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 import com.example.daisongsong.chartapp.R;
 import com.example.daisongsong.chartapp.book.model.CostInfo;
 import com.example.daisongsong.chartapp.book.model.DayCostMoneyInfo;
+import com.example.daisongsong.chartapp.util.NumberUtil;
 
 /**
  * Created by daisongsong on 2016/12/1.
@@ -17,15 +17,13 @@ import com.example.daisongsong.chartapp.book.model.DayCostMoneyInfo;
 
 public class FundCostView extends FrameLayout {
     private TextView mTextViewName;
-    private TextView mTextViewTotalMoney;
-    private TextView mTextViewMarketMoney;
-    private TextView mTextViewTotalCount;
-    private TextView mTextViewTotalMoneyRatio;
 
-    private TextView mTextViewDate;
-    private TextView mTextViewPrice;
-    private TextView mTextViewUnitPrice;
-
+    private PriceItemView mPriceItemViewCount;
+    private PriceItemView mPriceItemViewMarketPrice;
+    private PriceItemView mPriceItemViewLibProfit;
+    private PriceItemView mPriceItemViewTotalMoney;
+    private PriceItemView mPriceItemViewUnitCost;
+    private PriceItemView mPriceItemViewCurrentPrice;
 
     public FundCostView(Context context) {
         super(context);
@@ -44,40 +42,30 @@ public class FundCostView extends FrameLayout {
 
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.item_cost, this);
-
         mTextViewName = (TextView) findViewById(R.id.mTextViewName);
-        mTextViewTotalMoney = (TextView) findViewById(R.id.mTextViewTotalMoney);
-        mTextViewMarketMoney = (TextView) findViewById(R.id.mTextViewMarketMoney);
-        mTextViewTotalCount = (TextView) findViewById(R.id.mTextViewTotalCount);
-        mTextViewTotalMoneyRatio = (TextView) findViewById(R.id.mTextViewTotalMoneyRatio);
 
-        mTextViewDate = (TextView) findViewById(R.id.mTextViewDate);
-        mTextViewPrice = (TextView) findViewById(R.id.mTextViewPrice);
-        mTextViewUnitPrice = (TextView) findViewById(R.id.mTextViewUnitPrice);
+        mPriceItemViewCount = (PriceItemView) findViewById(R.id.mPriceItemViewCount);
+        mPriceItemViewMarketPrice = (PriceItemView) findViewById(R.id.mPriceItemViewMarketPrice);
+        mPriceItemViewLibProfit = (PriceItemView) findViewById(R.id.mPriceItemViewLibProfit);
+        mPriceItemViewTotalMoney = (PriceItemView) findViewById(R.id.mPriceItemViewTotalMoney);
+        mPriceItemViewUnitCost = (PriceItemView) findViewById(R.id.mPriceItemViewUnitCost);
+        mPriceItemViewCurrentPrice = (PriceItemView) findViewById(R.id.mPriceItemViewCurrentPrice);
     }
 
     public void refreshView(CostInfo costInfo) {
         mTextViewName.setText(costInfo.getFundInfo().getName() + "[" + costInfo.getFundInfo().getFundCode() + "]");
         DayCostMoneyInfo moneyInfo = costInfo.getCurrentMoneyInfo();
-        mTextViewTotalMoney.setText("本金:" + moneyInfo.getTotalMoney());
-        mTextViewMarketMoney.setText("市值:" + moneyInfo.getTotalMarketMoney());
-        mTextViewTotalCount.setText("份额:" + moneyInfo.getTotalCount());
 
-        float moneyRatio = (moneyInfo.getTotalMarketMoney() - moneyInfo.getTotalMoney()) / moneyInfo.getTotalMoney();
-        String rationString = String.format("%.2f", moneyRatio * 100);
-        mTextViewTotalMoneyRatio.setText("(" + rationString + "%" + ")");
-        if (moneyRatio >= 0f) {
-            mTextViewTotalMoneyRatio.setTextColor(Color.RED);
-        } else {
-            mTextViewTotalMoneyRatio.setTextColor(Color.GREEN);
-        }
+        mPriceItemViewCount.setInfo("持有份额", NumberUtil.floatToString(moneyInfo.getTotalCount()));
+        mPriceItemViewMarketPrice.setInfo("市值", NumberUtil.floatToString(moneyInfo.getTotalMarketMoney()));
 
-        mTextViewDate.setText(moneyInfo.getDate());
-        mTextViewPrice.setText("净值:" + moneyInfo.getPrice());
-        if (moneyInfo.getTotalCount() > 0) {
-            mTextViewUnitPrice.setText("单位成本:" + (moneyInfo.getTotalMoney() / moneyInfo.getTotalCount()));
-        } else {
-            mTextViewUnitPrice.setText("单位成本:NaN");
-        }
+        float profitMoney = moneyInfo.getTotalMarketMoney() - moneyInfo.getTotalMoney();
+        float profitRatio = profitMoney / moneyInfo.getTotalMoney();
+        mPriceItemViewLibProfit.setInfo("持仓盈亏", NumberUtil.floatToString(profitMoney), NumberUtil.floatToString(profitRatio * 100) + "%", profitRatio >= 0);
+
+        mPriceItemViewTotalMoney.setInfo("总本金", NumberUtil.floatToString(moneyInfo.getTotalMoney()));
+        mPriceItemViewUnitCost.setInfo("单位成本", NumberUtil.floatToString(moneyInfo.getTotalMoney() / moneyInfo.getTotalCount(), 4));
+
+        mPriceItemViewCurrentPrice.setInfo(moneyInfo.getDate() + "净值", NumberUtil.floatToString(moneyInfo.getPrice(), 4));
     }
 }
