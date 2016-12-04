@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class ChartViewHelper {
     public static final int[] COLORS = new int[]{Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.GRAY, Color.CYAN};
     private static final int PADDING = App.getApp().getResources().getDimensionPixelSize(R.dimen.info_20_dp);
-    private static final int POINT_WIDTH = 3;
+    private static final int POINT_WIDTH = 1;
     private SurfaceHolder mSurfaceHolder;
     private SurfaceView mSurfaceView;
     private int mWidth;
@@ -81,9 +81,8 @@ public class ChartViewHelper {
             String yMessage = "";
             ArrayList<ArrayList<Float>> mChartInfoY = mChartInfo.getY();
             for (int i = 0; i < mChartInfoY.size(); i++) {
-                yMessage += NumberUtil.floatToString(mChartInfoY.get(i).get(position), 3);
-                if (i != (mChartInfoY.size() - 1)) {
-                    yMessage += ",";
+                if (isYEnabled(i)) {
+                    yMessage += NumberUtil.floatToString(mChartInfoY.get(i).get(position), 3) + ",";
                 }
             }
             mListener.onTouched(x, y, xMessage, yMessage);
@@ -110,7 +109,7 @@ public class ChartViewHelper {
         drawAxis(canvas);
 
         for (int i = 0; i < chartInfo.dSize(); i++) {
-            if(isYEnabled(i)) {
+            if (isYEnabled(i)) {
                 drawD(canvas, chartInfo, i);
             }
         }
@@ -188,11 +187,11 @@ public class ChartViewHelper {
         }).start();
     }
 
-    private boolean isYEnabled(int y){
+    private boolean isYEnabled(int y) {
         Boolean aBoolean = mPositionEnableStatus.get(y);
-        if(aBoolean != null){
+        if (aBoolean != null) {
             return aBoolean;
-        }else {
+        } else {
             return true;
         }
     }
