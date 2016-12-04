@@ -3,7 +3,7 @@ package com.example.daisongsong.chartapp.chart;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
@@ -69,19 +69,26 @@ public class ChartActivity extends Activity implements ChartViewHelper.OnChartTo
         mLinearLayoutTip = (LinearLayout) findViewById(R.id.mLinearLayoutTip);
         int count = Math.min(ChartViewHelper.COLORS.length, mChartInfo.getYNames().size());
         for (int i = 0; i < count; i++) {
-            TextView v = new TextView(this);
+            final TextView v = new TextView(this);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
             lp.weight = 1;
             v.setLayoutParams(lp);
             v.setTextSize(14);
             v.setGravity(Gravity.CENTER);
             v.setText(mChartInfo.getYNames().get(i));
-            v.setTextColor(Color.WHITE);
+            v.setTextColor(getResources().getColorStateList(R.color.selector_a));
             v.setBackgroundColor(ChartViewHelper.COLORS[i]);
+            v.setSelected(true);
+            final int finalI = i;
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v1) {
+                    v.setSelected(!v.isSelected());
+                    mHelper.setYEnabled(finalI, v.isSelected());
+                }
+            });
             mLinearLayoutTip.addView(v);
         }
-
-
     }
 
     @Override
@@ -100,6 +107,5 @@ public class ChartActivity extends Activity implements ChartViewHelper.OnChartTo
         mTextViewX.setVisibility(View.INVISIBLE);
         mViewYLine.setVisibility(View.INVISIBLE);
     }
-
 
 }

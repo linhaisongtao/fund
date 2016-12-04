@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -31,6 +32,7 @@ public class ChartViewHelper {
     private Rect mRectContent;
     private ChartInfo mChartInfo;
     private OnChartTouchListener mListener;
+    private SparseArray<Boolean> mPositionEnableStatus = new SparseArray<>();
 
     public ChartViewHelper(SurfaceHolder surfaceHolder, int width, int height) {
         mSurfaceHolder = surfaceHolder;
@@ -104,10 +106,13 @@ public class ChartViewHelper {
 
     private void drawChartBackground(ChartInfo chartInfo) {
         Canvas canvas = mSurfaceHolder.lockCanvas();
+        canvas.drawColor(Color.BLACK);
         drawAxis(canvas);
 
         for (int i = 0; i < chartInfo.dSize(); i++) {
-            drawD(canvas, chartInfo, i);
+            if(isYEnabled(i)) {
+                drawD(canvas, chartInfo, i);
+            }
         }
 
         drawYValues(chartInfo, canvas);
@@ -171,6 +176,25 @@ public class ChartViewHelper {
 
     public void setListener(OnChartTouchListener listener) {
         mListener = listener;
+    }
+
+    public void setYEnabled(int i, boolean selected) {
+        mPositionEnableStatus.put(i, selected);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                drawChartBackground(mChartInfo);
+            }
+        }).start();
+    }
+
+    private boolean isYEnabled(int y){
+        Boolean aBoolean = mPositionEnableStatus.get(y);
+        if(aBoolean != null){
+            return aBoolean;
+        }else {
+            return true;
+        }
     }
 
     public static interface OnChartTouchListener {

@@ -136,4 +136,5 @@ public class ChartInfo implements Serializable {
     public ArrayList<String> getYNames() {
         return mYNames;
     }
+
 }
