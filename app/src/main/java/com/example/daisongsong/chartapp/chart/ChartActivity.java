@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,11 +22,14 @@ import com.example.daisongsong.chartapp.chart.view.ChartViewHelper;
  * Created by daisongsong on 2016/11/28.
  */
 
-public class ChartActivity extends Activity {
+public class ChartActivity extends Activity implements ChartViewHelper.OnChartTouchListener {
     private SurfaceView mSurfaceView;
     private LinearLayout mLinearLayoutTip;
-
+    private FrameLayout mFrameLayout;
+    private View mViewYLine;
+    private TextView mTextViewX;
     private ChartInfo mChartInfo;
+    private ChartViewHelper mHelper;
 
     public static void start(Context context, ChartInfo datas) {
         Intent i = new Intent(context, ChartActivity.class);
@@ -38,12 +43,16 @@ public class ChartActivity extends Activity {
         setContentView(R.layout.activity_chart);
 
         mSurfaceView = (SurfaceView) findViewById(R.id.mSurfaceView);
+        mFrameLayout = (FrameLayout) findViewById(R.id.mFrameLayout);
+        mTextViewX = (TextView) findViewById(R.id.mTextViewX);
+        mViewYLine = findViewById(R.id.mViewYLine);
         mChartInfo = (ChartInfo) getIntent().getSerializableExtra("data");
         mSurfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                ChartViewHelper helper = new ChartViewHelper(surfaceHolder, mSurfaceView.getMeasuredWidth(), mSurfaceView.getMeasuredHeight());
-                helper.drawChart(mChartInfo);
+                mHelper = new ChartViewHelper(mSurfaceView, surfaceHolder, mSurfaceView.getMeasuredWidth(), mSurfaceView.getMeasuredHeight());
+                mHelper.drawChart(mChartInfo);
+                mHelper.setListener(ChartActivity.this);
             }
 
             @Override
@@ -71,5 +80,26 @@ public class ChartActivity extends Activity {
             v.setBackgroundColor(ChartViewHelper.COLORS[i]);
             mLinearLayoutTip.addView(v);
         }
+
+
     }
+
+    @Override
+    public void onTouched(float x, float y, String xMessage, String yMessage) {
+        mTextViewX.setText(xMessage + " " + yMessage);
+        mTextViewX.setVisibility(View.VISIBLE);
+
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) mViewYLine.getLayoutParams();
+        lp.leftMargin = (int) x;
+        mViewYLine.setLayoutParams(lp);
+        mViewYLine.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void cancelMessage() {
+        mTextViewX.setVisibility(View.INVISIBLE);
+        mViewYLine.setVisibility(View.INVISIBLE);
+    }
+
+
 }

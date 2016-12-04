@@ -4,12 +4,32 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-
-    <SurfaceView
-        android:id="@+id/mSurfaceView"
+    <FrameLayout
+        android:id="@+id/mFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1">
+
+        <SurfaceView
+            android:id="@+id/mSurfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/mTextViewX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:background="@android:color/white"/>
+
+        <View
+            android:visibility="gone"
+            android:id="@+id/mViewYLine"
+            android:background="#ccc"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/mLinearLayoutTip"

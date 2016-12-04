@@ -4,10 +4,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.View;
 
 import com.example.daisongsong.chartapp.App;
 import com.example.daisongsong.chartapp.R;
+import com.example.daisongsong.chartapp.util.NumberUtil;
+
+import java.util.ArrayList;
 
 /**
  * Created by daisongsong on 2016/11/28.
@@ -18,10 +24,13 @@ public class ChartViewHelper {
     private static final int PADDING = App.getApp().getResources().getDimensionPixelSize(R.dimen.info_20_dp);
     private static final int POINT_WIDTH = 3;
     private SurfaceHolder mSurfaceHolder;
+    private SurfaceView mSurfaceView;
     private int mWidth;
     private int mHeight;
 
     private Rect mRectContent;
+    private ChartInfo mChartInfo;
+    private OnChartTouchListener mListener;
 
     public ChartViewHelper(SurfaceHolder surfaceHolder, int width, int height) {
         mSurfaceHolder = surfaceHolder;
@@ -31,10 +40,59 @@ public class ChartViewHelper {
         mRectContent = new Rect(PADDING, PADDING, (int) (mWidth - PADDING * 1.5), mHeight - PADDING);
     }
 
+    public ChartViewHelper(final SurfaceView surfaceView, SurfaceHolder holder, int width, int height) {
+        this(holder, width, height);
+        mSurfaceView = surfaceView;
+
+        mSurfaceView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        drawPointInfo(event.getX(), event.getY());
+                        return true;
+                    case MotionEvent.ACTION_MOVE:
+                        drawPointInfo(event.getX(), event.getY());
+                        return true;
+                    case MotionEvent.ACTION_CANCEL:
+                    case MotionEvent.ACTION_UP:
+                        clearPointInfo();
+                        return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    private void clearPointInfo() {
+        if (mListener != null) {
+            mListener.cancelMessage();
+        }
+    }
+
+    private void drawPointInfo(float x, float y) {
+        int count = mChartInfo.getX().length;
+        float step = (float) (1.0 * mRectContent.width() / (count - 1));
+        int position = (int) (((int) x - mRectContent.left) / step);
+        if (position >= 0 && position < count && mListener != null) {
+            String xMessage = mChartInfo.getX()[position];
+            String yMessage = "";
+            ArrayList<ArrayList<Float>> mChartInfoY = mChartInfo.getY();
+            for (int i = 0; i < mChartInfoY.size(); i++) {
+                yMessage += NumberUtil.floatToString(mChartInfoY.get(i).get(position), 3);
+                if (i != (mChartInfoY.size() - 1)) {
+                    yMessage += ",";
+                }
+            }
+            mListener.onTouched(x, y, xMessage, yMessage);
+        }
+    }
+
     public void drawChart(final ChartInfo chartInfo) {
         if (chartInfo == null) {
             return;
         }
+        this.mChartInfo = chartInfo;
 
         new Thread(new Runnable() {
             @Override
@@ -111,4 +169,13 @@ public class ChartViewHelper {
         canvas.drawRect(rect, p);
     }
 
+    public void setListener(OnChartTouchListener listener) {
+        mListener = listener;
+    }
+
+    public static interface OnChartTouchListener {
+        void onTouched(float x, float y, String xMessage, String yMessage);
+
+        void cancelMessage();
+    }
 }
