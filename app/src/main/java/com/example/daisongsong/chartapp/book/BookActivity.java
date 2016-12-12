@@ -25,6 +25,8 @@ public class BookActivity extends Activity implements BookPresenter.View {
     private BookAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
+    private TotalView mTotalView;
+
     public static void start(Context context) {
         context.startActivity(new Intent(context, BookActivity.class));
     }
@@ -33,8 +35,11 @@ public class BookActivity extends Activity implements BookPresenter.View {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
+        mTotalView = new TotalView(this);
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.mSwipeRefreshLayout);
         mListView = (ListView) findViewById(R.id.mListView);
+        mListView.addHeaderView(mTotalView);
         mAdapter = new BookAdapter();
         mListView.setAdapter(mAdapter);
 
@@ -69,4 +74,10 @@ public class BookActivity extends Activity implements BookPresenter.View {
         mAdapter.notifyDataSetChanged();
         mSwipeRefreshLayout.setRefreshing(false);
     }
+
+    @Override
+    public void showTotalInfo(float totalMoney, float totalMarketMoney) {
+        mTotalView.refreshTotalInfo(totalMoney, totalMarketMoney);
+    }
+
 }

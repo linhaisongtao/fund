@@ -18,6 +18,9 @@ public class BookPresenter {
     private List<CostInfo> mCostInfos;
     private View mView;
 
+    private float mTotalMoney;
+    private float mTotalMarketMoney;
+
     public BookPresenter(View view) {
         mView = view;
     }
@@ -37,11 +40,18 @@ public class BookPresenter {
         compute();
 
         mView.showList(mCostInfos);
+        mView.showTotalInfo(mTotalMoney, mTotalMarketMoney);
+
     }
 
     private void compute() {
+        mTotalMarketMoney = 0f;
+        mTotalMoney = 0f;
+
         for (CostInfo costInfo : mCostInfos) {
             computeCost(costInfo);
+            mTotalMoney += costInfo.getCurrentMoneyInfo().getTotalMoney();
+            mTotalMarketMoney += costInfo.getCurrentMoneyInfo().getTotalMarketMoney();
         }
     }
 
@@ -93,5 +103,7 @@ public class BookPresenter {
 
     public interface View {
         void showList(List<CostInfo> infos);
+
+        void showTotalInfo(float totalMoney, float totalMarketMoney);
     }
 }
