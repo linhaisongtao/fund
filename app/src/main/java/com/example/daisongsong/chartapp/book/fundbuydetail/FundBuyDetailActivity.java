@@ -121,6 +121,7 @@ public class FundBuyDetailActivity extends Activity {
         ChartInfo info = new ChartInfo();
 
         float maxY = Float.MIN_VALUE;
+        float minY = Float.MAX_VALUE;
 
         ArrayList<DayCostMoneyInfo> moneyInfos = mCostInfo.getMoneyInfos();
         String[] x = new String[moneyInfos.size()];
@@ -142,15 +143,15 @@ public class FundBuyDetailActivity extends Activity {
             averagePrices.add(averagePrice);
 
             maxY = Math.max(maxY, Math.max(price, averagePrice));
+            minY = Math.min(minY, Math.min(price, averagePrice));
         }
 
         info.setX(x);
         info.addY(prices, "净值");
         info.addY(averagePrices, "成本");
 
-        info.setMax(maxY);
-        info.setMin(0f);
-        info.setWidth(maxY - 0f);
+        info.setMax(maxY * 1.02f);
+        info.setMin(minY * 0.96f);
         info.setNeedInit(false);
 
         return info;

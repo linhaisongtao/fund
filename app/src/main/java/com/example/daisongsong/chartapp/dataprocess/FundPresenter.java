@@ -71,6 +71,7 @@ public class FundPresenter {
         ChartInfo info = new ChartInfo();
 
         mMaxY = Float.MIN_VALUE;
+        float minY = Float.MAX_VALUE;
 
         String[] x = new String[mEnd - mStart + 1];
         ArrayList<Float> price = new ArrayList<>();
@@ -82,6 +83,7 @@ public class FundPresenter {
                 float p = data.getPrice();
                 price.add(p);
                 mMaxY = Math.max(mMaxY, p);
+                minY = Math.min(minY, p);
             }
         }
 
@@ -92,9 +94,8 @@ public class FundPresenter {
         info.addY(makeY(10), "2周定投");
         info.addY(makeY(22), "月定投");
 
-        info.setMax(mMaxY);
-        info.setMin(0f);
-        info.setWidth(mMaxY);
+        info.setMax(mMaxY * 1.02f);
+        info.setMin(minY * 0.96f);
         info.setNeedInit(false);
 
         return info;

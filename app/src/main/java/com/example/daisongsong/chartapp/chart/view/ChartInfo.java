@@ -15,7 +15,6 @@ public class ChartInfo implements Serializable {
     private ArrayList<String> mYNames;
     private float mMin = Float.MIN_VALUE;
     private float mMax = Float.MIN_VALUE;
-    private float mWidth = Float.MIN_VALUE;
 
     private boolean mNeedInit = true;
 
@@ -83,7 +82,8 @@ public class ChartInfo implements Serializable {
     }
 
     public float width() {
-        return mWidth <= 0 ? 1 : mWidth;
+        float diff = mMax - mMin;
+        return diff <= 0 ? 1f : diff;
     }
 
     public float getMax() {
@@ -102,10 +102,6 @@ public class ChartInfo implements Serializable {
         mMin = min;
     }
 
-    public void setWidth(float width) {
-        mWidth = width;
-    }
-
     public void init() {
         if (!mNeedInit) {
             return;
@@ -122,7 +118,6 @@ public class ChartInfo implements Serializable {
                 }
             }
         }
-        mWidth = mMax - mMin;
     }
 
     public boolean isNeedInit() {
